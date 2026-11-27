@@ -119,17 +119,17 @@
 
         <form action="/ajustes-estudiante/{{ id_usuario }}/guardar" method="POST">
             <div class="form-group">
-                <label>Nombre:</label>
-                <input type="text" name="nombre" value="{{ nombre }}" required>
+                <label for="nombre">Nombre:</label>
+                <input id="nombre" type="text" name="nombre" value="{{ nombre }}" required>
             </div>
 
             <div class="form-group">
-                <label>Correo Electrónico:</label>
-                <input type="email" name="correo" value="{{ correo }}" required>
+                <label for="correo">Correo Electrónico:</label>
+                <input id="correo" type="email" name="correo" value="{{ correo }}" required>
             </div>
 
             <div class="form-group" style="position: relative; display: flex; flex-direction: column;">
-                <label>Nueva Contraseña:</label>
+                <label for="inputPassword">Nueva Contraseña:</label>
                 <div style="position: relative; width: 100%;">
                     <input type="password" 
                     id="inputPassword" 

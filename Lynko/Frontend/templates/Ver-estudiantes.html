@@ -39,7 +39,7 @@
             
             <div class="search-container" style="margin-bottom: 20px;">
                 <form action="/admin/estudiantes" method="GET" style="display: flex; gap: 10px;">
-                    <input type="text" name="q" placeholder="🔍 Buscar estudiante por nombre..." 
+                    <input type="text" name="q" placeholder="🔍 Buscar estudiante por nombre..." aria-label="Buscar estudiante por nombre" 
                     value="{{ query_busqueda or '' }}" 
                     style="padding: 10px; width: 100%; max-width: 900px; border-radius: 8px; border: 1px solid #ccc; font-family: 'Nunito', sans-serif;">
                     <button type="submit" class="btn-primary" style="padding: 10px 20px; width: 100px;">Buscar</button>
@@ -126,17 +126,17 @@
                     <input type="hidden" name="id_usuario" id="edit_id_usuario">
 
                     <div class="form-group">
-                        <label>Nombre del Alumno</label>
+                        <label for="edit_nombre">Nombre del Alumno</label>
                         <input type="text" name="nombre" id="edit_nombre" class="form-input" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Correo Electrónico</label>
+                        <label for="edit_correo">Correo Electrónico</label>
                         <input type="email" name="correo" id="edit_correo" class="form-input" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Puntaje Total (EXP)</label>
+                        <label for="edit_puntaje">Puntaje Total (EXP)</label>
                         <input type="number" name="puntaje_total" id="edit_puntaje" class="form-input" min="0" required>
                     </div>
 
@@ -154,7 +154,7 @@
             document.getElementById('edit_id_usuario').value = id;
             document.getElementById('edit_nombre').value = nombre;
             document.getElementById('edit_correo').value = correo;
-            document.getElementById('edit_puntaje').value = parseInt(puntaje) || 0;
+            document.getElementById('edit_puntaje').value = Number.parseInt(puntaje) || 0;
             document.getElementById('modalEditarAlumno').style.display = 'flex';
         }
 

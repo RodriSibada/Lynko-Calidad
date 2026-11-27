@@ -51,8 +51,8 @@
                 <h3 style="font-family: 'Fredoka', sans-serif;"><i>➕</i> Crear Nuevo Examen</h3>
                 <form action="/admin/crear-examen" method="POST" id="exam-form">
                     <div class="form-group" id="group-materia">
-                        <label>Materia Vinculada</label>
-                        <select name="id_materia" class="form-input" style="width: 100%; background: #FAFAFA;" required>
+                        <label for="id-materia">Materia Vinculada</label>
+                        <select id="id-materia" name="id_materia" class="form-input" style="width: 100%; background: #FAFAFA;" required>
                             <option value="" disabled selected>Selecciona una materia...</option>
                             {% for materia in materias %}
                             <option value="{{ materia.id }}">{{ materia.nombre }}</option>
@@ -61,23 +61,23 @@
                     </div>
 
                     <div class="form-group" id="group-titulo">
-                        <label>Título del Examen</label>
-                        <input type="text" name="titulo" class="form-input" placeholder="Ej: Evaluación Final de Fracciones" required>
+                        <label for="titulo">Título del Examen</label>
+                        <input id="titulo" type="text" name="titulo" class="form-input" placeholder="Ej: Evaluación Final de Fracciones" required>
                     </div>
 
                     <div class="form-group" id="group-desc">
-                        <label>Descripción u Objetivo</label>
-                        <textarea name="descripcion" class="form-input" rows="3" placeholder="Opcional..."></textarea>
+                        <label for="descripcion">Descripción u Objetivo</label>
+                        <textarea id="descripcion" name="descripcion" class="form-input" rows="3" placeholder="Opcional..."></textarea>
                     </div>
 
                     <div class="form-row" id="group-row-metrics">
                         <div class="form-group" id="group-duracion">
-                            <label>Duración (Minutos)</label>
-                            <input type="number" name="duracion" class="form-input" min="5" placeholder="Ej: 30" required>
+                            <label for="duracion">Duración (Minutos)</label>
+                            <input id="duracion" type="number" name="duracion" class="form-input" min="5" placeholder="Ej: 30" required>
                         </div>
                         <div class="form-group" id="group-puntaje">
-                            <label>Puntaje Mínimo</label>
-                            <input type="number" name="puntaje_minimo" class="form-input" min="1" placeholder="Ej: 60" required>
+                            <label for="puntaje-minimo">Puntaje Mínimo</label>
+                            <input id="puntaje-minimo" type="number" name="puntaje_minimo" class="form-input" min="1" placeholder="Ej: 60" required>
                         </div>
                     </div>
 
