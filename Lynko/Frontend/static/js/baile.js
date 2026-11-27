@@ -57,8 +57,8 @@ window.iniciarMediaPipeBaile = function(idActividad, idUsuario, yaCompletado) {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
-                                id_usuario: Number.parseInt(idUsuario),
-                                actividad_id: Number.parseInt(idActividad),
+                                id_usuario: parseInt(idUsuario),
+                                actividad_id: parseInt(idActividad),
                                 puntos: 40 
                             })
                         });

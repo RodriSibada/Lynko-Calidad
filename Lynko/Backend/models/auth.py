@@ -1,8 +1,5 @@
-import os
 import re
 import secrets
-from pathlib import Path
-from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, status, Response
 from pydantic import BaseModel
 from config.database import obtener_conexion
@@ -21,12 +18,8 @@ class LoginRequest(BaseModel):
 router = APIRouter()
 
 def enviar_correo_recuperacion(correo_destino: str, token: str):
-    # Credenciales leídas de variables de entorno (archivo Backend/.env, no versionado)
-    load_dotenv(Path(__file__).resolve().parents[1] / ".env")
-    remitente = os.getenv("MAIL_USERNAME", "")
-    password_app = os.getenv("MAIL_PASSWORD", "")
-    servidor_smtp = os.getenv("MAIL_SERVER", "smtp.gmail.com")
-    puerto_smtp = int(os.getenv("MAIL_PORT", "587"))
+    remitente = "lynkoaprendejugando@gmail.com"          # Cambia por tu correo de Gmail
+    password_app = "sxbv gdgz pfle nrli" # Contraseña de aplicación de Gmail (16 dígitos)
     
     # Enlace que recibirá el usuario
     enlace = f"http://127.0.0.1:8000/login?token={token}"
@@ -141,7 +134,7 @@ def enviar_correo_recuperacion(correo_destino: str, token: str):
     
     try:
         # Conexión al servidor SMTP de Gmail
-        servidor = smtplib.SMTP(servidor_smtp, puerto_smtp)
+        servidor = smtplib.SMTP("smtp.gmail.com", 587)
         servidor.starttls()
         servidor.login(remitente, password_app)
         servidor.sendmail(remitente, correo_destino, mensaje.as_string())

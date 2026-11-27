@@ -99,7 +99,7 @@ async def crear_pregunta_para_examen(
     
     with obtener_conexion() as conexion:
         exito, mensaje = insertar_pregunta_reto_db(
-            id_reto=id_examen, 
+            id_examen=id_examen, 
             pregunta=pregunta, 
             puntos=puntos_recompensa, 
             opciones_list=opciones_list, 

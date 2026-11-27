@@ -92,7 +92,7 @@
         <section class="subjects-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 10px 0;">
 
             {% for act in actividades %}
-            <div class="subject-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" data-materia="{{ act.materia }}" onclick='abrirReporteAnalitico({{ act | tojson | safe }})' style="background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; overflow: hidden; display: flex; flex-direction: column;">
+            <div class="subject-card" data-materia="{{ act.materia }}" onclick='abrirReporteAnalitico({{ act | tojson | safe }})' style="background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; overflow: hidden; display: flex; flex-direction: column;">
                 
                 <!-- Contenedor de Imagen -->
                 <div style="width: 100%; height: 120px; overflow: hidden; background: #f1f5f9;">
