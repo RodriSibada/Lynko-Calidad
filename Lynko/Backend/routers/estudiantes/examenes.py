@@ -88,7 +88,7 @@ async def enviar_respuestas_examen(request: Request, id_examen: int):
 
     
 @router.get("/resolver-examen/{id_materia}/{id_examen}/{id_usuario}", response_class=HTMLResponse)
-def vista_resolver_examen_individual(id_examen: int, request: Request, id_usuario: int):
+def vista_resolver_examen_individual(id_materia: int, id_examen: int, request: Request, id_usuario: int):
     datos_base = obtener_contexto_base(id_usuario)
     
     with obtener_conexion() as conexion:
