@@ -24,7 +24,7 @@ def enviar_correo_recuperacion(correo_destino: str, token: str):
     # Credenciales leídas de variables de entorno (archivo Backend/.env, no versionado)
     load_dotenv(Path(__file__).resolve().parents[1] / ".env")
     remitente = os.getenv("MAIL_USERNAME", "")
-    password_app = os.getenv("MAIL_PASSWORD", "")
+    clave_smtp = os.getenv("MAIL_PASSWORD", "")
     servidor_smtp = os.getenv("MAIL_SERVER", "smtp.gmail.com")
     puerto_smtp = int(os.getenv("MAIL_PORT", "587"))
     
@@ -143,7 +143,7 @@ def enviar_correo_recuperacion(correo_destino: str, token: str):
         # Conexión al servidor SMTP de Gmail
         servidor = smtplib.SMTP(servidor_smtp, puerto_smtp)
         servidor.starttls()
-        servidor.login(remitente, password_app)
+        servidor.login(remitente, clave_smtp)
         servidor.sendmail(remitente, correo_destino, mensaje.as_string())
         servidor.quit()
         print(f"✅ Correo de recuperación enviado con éxito a {correo_destino}")
