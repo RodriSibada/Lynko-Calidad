@@ -54,7 +54,7 @@ window.iniciarCompletarEspacio = function(idActividad) {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        id_completar_espacio: parseInt(idCompletar),
+                        id_completar_espacio: Number.parseInt(idCompletar),
                         respuesta_usuario: respuestaUsuario
                     })
                 });
@@ -85,8 +85,8 @@ window.iniciarCompletarEspacio = function(idActividad) {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                        id_usuario: parseInt(idUsuario),
-                                        actividad_id: parseInt(idActividad),
+                                        id_usuario: Number.parseInt(idUsuario),
+                                        actividad_id: Number.parseInt(idActividad),
                                         puntos: 30
                                     })
                                 });

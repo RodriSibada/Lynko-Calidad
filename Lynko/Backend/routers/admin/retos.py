@@ -1,3 +1,4 @@
+import asyncio
 import psycopg2
 
 from config.database import obtener_conexion
@@ -23,6 +24,12 @@ from models.admin import (
     insertar_pregunta_reto_db,
     eliminar_fila_db
 )
+
+def _guardar_archivo_binario(ruta: str, contenido: bytes) -> None:
+    """Escritura síncrona; se ejecuta en un hilo para no bloquear el event loop."""
+    with open(ruta, "wb") as buffer:
+        buffer.write(contenido)
+
 
 router = APIRouter(prefix="/admin", tags=["Administración"])
 
@@ -113,8 +120,7 @@ async def crear_reto_con_audio_unico(request: Request):
         ruta_fisica = os.path.join(UPLOAD_DIR, nombre_archivo)
         
         content = await archivo_audio.read()
-        with open(ruta_fisica, "wb") as buffer:
-            buffer.write(content)
+        await asyncio.to_thread(_guardar_archivo_binario, ruta_fisica, content)
         
         link_audio_db = f"/{ruta_fisica.replace(os.sep, '/')}"
 

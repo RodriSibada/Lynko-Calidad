@@ -1,0 +1,5 @@
+
+# Secretos locales (credenciales SMTP/BD)
+Lynko/Backend/.env
+*.pyc
+__pycache__/

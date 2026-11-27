@@ -60,7 +60,7 @@
         <!-- GRID DE MATERIAS CON SUS IMÁGENES -->
         <section class="subjects-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
             {% for mat in materias %}
-            <div class="admin-card materia-card" data-nombre="{{ mat.nombre }}" style="padding: 0; overflow: hidden; display: flex; flexDirection: column; border-radius: 14px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <div class="admin-card materia-card" data-nombre="{{ mat.nombre }}" style="padding: 0; overflow: hidden; display: flex; flex-direction: column; border-radius: 14px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
                 <!-- Imagen de la Materia -->
                 <div style="height: 140px; width: 100%; position: relative; background: #edf2f7;">
                     {% if mat.link_imagen %}
