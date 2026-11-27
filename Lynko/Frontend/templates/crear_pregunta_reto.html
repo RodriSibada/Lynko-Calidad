@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynko - Crear Pregunta de Reto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/crear_preguntas_reto.css">
+</head>
+<body id="admin-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <img src="https://cdn.phototourl.com/free/2026-06-08-2a556232-b138-49a7-a830-66b7ce8a4f19.png" alt="Lynko Logo">
+                </div>
+                <p class="logo-slogan">Panel de Control Central</p>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/admin"><i>📊</i> Inicio</a></li>
+                    <li class="nav-item"><a href="/admin/estudiantes"><i>👥</i> Alumnos y Ranking</a></li>  
+                    <li class="nav-item"><a href="/admin/nuevas-preguntas"><i>➕</i> Crear Preguntas</a></li>
+                    <li class="nav-item"><a href="/admin/preguntas"><i>📝</i> Banco de Preguntas</a></li>   
+                    <li class="nav-item "><a href="/admin/materias-actividades"><i>🎮</i> Gestión de Materias</a></li>   
+                    <li class="nav-item"><a href="/admin/retos/crear"><i>🎉</i> Retos Semanales</a></li>
+                    <li class="nav-item active"><a href="#"><i>🎉</i> Preguntas Retos Semanales</a></li>   
+                </ul>
+            </nav>
+        </div>
+        <div class="sidebar-footer-btn" style="padding-top: 20px;">
+            <a href="/login" style="color: white; text-decoration: none; font-weight: 700; font-size: 14px;">🚪 Cerrar Sesión</a>
+        </div>
+    </aside>
+
+    <div class="main-content-wrapper">
+        <div class="form-container">
+            <h2>Crear Pregunta de Reto</h2>
+            <p class="subtitle">Añade un nuevo desafío interactivo vinculado al reto.</p>
+
+            <!-- Formulario limpio sin action tradicional -->
+            <form id="formCrearPregunta" class="space-y-4">
+                <!-- Texto de la pregunta -->
+                <div>
+                    <label class="block font-semibold mb-1">Texto de la Pregunta</label>
+                    <input type="text" id="texto_pregunta" required class="w-full border p-2 rounded" placeholder="Escribe tu pregunta aquí...">
+                </div>
+
+                <!-- Opciones de Respuesta -->
+                <div class="space-y-2">
+                    <label class="block font-semibold">Opciones de Respuesta (Selecciona la correcta)</label>
+                    
+                    <div class="flex items-center gap-2">
+                        <input type="radio" name="correcta" value="0" checked>
+                        <input type="text" id="opcion0" required class="w-full border p-2 rounded" placeholder="Opción 1">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="radio" name="correcta" value="1">
+                        <input type="text" id="opcion1" required class="w-full border p-2 rounded" placeholder="Opción 2">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="radio" name="correcta" value="2">
+                        <input type="text" id="opcion2" required class="w-full border p-2 rounded" placeholder="Opción 3">
+                    </div>
+                </div>
+
+                <!-- Puntos de Recompensa -->
+                <div>
+                    <label class="block font-semibold mb-1">Puntos de Recompensa</label>
+                    <input type="number" id="puntos_recompensa" value="10" min="1" class="w-full border p-2 rounded">
+                </div>
+
+                <!-- Botón Enviar -->
+                <button type="submit" class="w-full bg-orange-500 text-white font-bold p-3 rounded hover:bg-orange-600 transition" style="background-color: #ff7a00; cursor: pointer;">
+                    Guardar Pregunta
+                </button>
+            </form>
+
+            <div class="sidebar-footer-btn" style="margin-top: 15px;">
+                <a href="/admin/gestion-retos">← Volver al banco de retos</a>
+            </div>
+        </div>
+    </div>
+
+<script>
+// Extraer dinámicamente el id_reto desde la URL (ej: /admin/retos/11/agregar-pregunta)
+const pathArray = window.location.pathname.split('/');
+const idRetoIndex = pathArray.indexOf('retos') + 1;
+const idReto = pathArray[idRetoIndex];
+
+document.getElementById("formCrearPregunta").addEventListener("submit", async (e) => {
+    e.preventDefault(); // Evita que la página recargue o bote al login
+
+    const textoPregunta = document.getElementById("texto_pregunta").value;
+    const puntos = parseInt(document.getElementById("puntos_recompensa").value);
+    
+    // Obtener qué radio button fue seleccionado (0, 1 o 2)
+    const radioSeleccionado = document.querySelector('input[name="correcta"]:checked');
+    const indiceCorrecto = radioSeleccionado ? parseInt(radioSeleccionado.value) : 0;
+
+    // Crear la lista de opciones boleanamente evaluadas
+    const opciones = [
+        { opcion: document.getElementById("opcion0").value, es_correcta: indiceCorrecto === 0 },
+        { opcion: document.getElementById("opcion1").value, es_correcta: indiceCorrecto === 1 },
+        { opcion: document.getElementById("opcion2").value, es_correcta: indiceCorrecto === 2 }
+    ];
+
+    const payload = {
+        pregunta: textoPregunta,
+        opciones: opciones,
+        puntos_recompensa: puntos
+    };
+
+    try {
+        const response = await fetch(`/admin/retos/${idReto}/preguntas/crear`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alert("¡Pregunta guardada con éxito en la base de datos! 🎉");
+            // Redirigir manualmente a los detalles del reto después del éxito
+            window.location.href = `/admin/retos/${idReto}/detalles`;
+        } else {
+            const err = await response.json();
+            alert("Error al guardar: " + (err.detail || "Error desconocido en la BD"));
+        }
+    } catch (error) {
+        console.error("Error de red:", error);
+        alert("Hubo un error de conexión con el servidor.");
+    }
+});
+</script>
+</body>
+</html>

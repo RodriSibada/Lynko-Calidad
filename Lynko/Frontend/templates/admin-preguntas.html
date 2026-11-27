@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynko Admin - Gestión de Materias y Actividades</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/adim.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <img src="https://cdn.phototourl.com/free/2026-06-08-2a556232-b138-49a7-a830-66b7ce8a4f19.png" alt="Lynko Logo">
+                </div>
+                <p>Panel de Control</p>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/admin"><i>📊</i> Inicio</a></li>
+                    <li class="nav-item"><a href="/admin/estudiantes"><i>👥</i> Alumnos y Ranking</a></li>  
+                    <li class="nav-item"><a href="/admin/nuevas-preguntas"><i>➕</i> Crear Preguntas</a></li>
+                    <li class="nav-item active"><a href="/admin/materias-actividades"><i>🎮</i> Gestión de Materias</a></li>  
+                     
+                </ul>
+            </nav>
+        </div>
+        <div style="padding: 20px;">
+            <a href="/login" style="color: white; text-decoration: none; font-weight: 700; font-size: 14px;">🚪 Cerrar Sesión</a>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <header class="admin-header" style="margin-bottom: 25px;">
+            <h2>Gestión de Actividades por Materia 🎮📚</h2>
+            <p>Selecciona una materia para visualizar sus apartados o crear nuevas actividades dinámicas con notificación masiva.</p>
+        </header>
+
+        <!-- FILTROS RÁPIDOS DE MATERIAS -->
+        <div style="display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; align-items: center;">
+    <button onclick="filtrarMateriasAdmin('todas')" style="background: #4a5568; color: white; border: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s;">
+        Todas 🌐
+    </button>
+    <button onclick="filtrarMateriasAdmin('Matemáticas')" style="background: #3182ce; color: white; border: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s;">
+        Matemáticas ➗
+    </button>
+    <button onclick="filtrarMateriasAdmin('Español')" style="background: #805ad5; color: white; border: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s;">
+        Español 📖
+    </button>
+    <button onclick="filtrarMateriasAdmin('Biología')" style="background: #38a169; color: white; border: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s;">
+        Biología 🧪
+    </button>
+</div>
+
+        <!-- GRID DE MATERIAS CON SUS IMÁGENES -->
+        <section class="subjects-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            {% for mat in materias %}
+            <div class="admin-card materia-card" data-nombre="{{ mat.nombre }}" style="padding: 0; overflow: hidden; display: flex; flexDirection: column; border-radius: 14px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <!-- Imagen de la Materia -->
+                <div style="height: 140px; width: 100%; position: relative; background: #edf2f7;">
+                    {% if mat.link_imagen %}
+                        <img src="{{ mat.link_imagen }}" alt="{{ mat.nombre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% else %}
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 40px;">📖</div>
+                    {% endif %}
+                </div>
+                
+                <div style="padding: 20px; display: flex; flex-direction: column; flex-grow: 1;">
+                    <h3 style="margin: 0 0 8px 0; font-size: 20px; font-weight: 800; color: #2d3748;">{{ mat.nombre }}</h3>
+                    <p style="margin: 0 0 20px 0; font-size: 13px; color: #718096; flex-grow: 1;">{{ mat.descripcion }}</p>
+                    
+                    <!-- Botón para abrir el Modal de Creación apuntando directo a esta Materia -->
+                    <button class="btn-primary" style="width: 100%; text-align: center; background: #ff7a00; font-weight: 700;" onclick="abrirModalCrearActividad('{{ mat.id_materia }}', '{{ mat.nombre }}')">
+                        ➕ Crear Actividad aquí
+                    </button>
+                </div>
+            </div>
+            {% else %}
+            <p style="color: #718096; grid-column: 1 / -1; text-align: center;">No hay materias registradas en la base de datos.</p>
+            {% endfor %}
+        </section>
+    </main>
+
+    <!-- MODAL INTELIGENTE PARA CREAR ACTIVIDADES -->
+    <div id="modalCrearActividad" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;">
+        <div class="admin-card" style="width: 100%; max-width: 550px; background: white; border-radius: 20px; padding: 30px; position: relative; max-height: 90vh; overflow-y: auto;">
+            <button type="button" onclick="cerrarModalCrearActividad()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 20px; cursor: pointer; color: #a0aec0;">✖</button>
+            
+            <h3 id="tituloModalMateria" style="margin-bottom: 5px; color: #2d3748;">Crear Actividad</h3>
+            <p style="font-size: 13px; color: #718096; margin-bottom: 20px;">Llena los datos. Al guardar, se creará el contenido y se notificará automáticamente a todos los estudiantes.</p>
+            
+            <form id="formCrearActividad" onsubmit="enviarCrearActividad(event)">
+                <input type="hidden" id="input_id_materia" name="id_materia">
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Título del Reto / Actividad:</label>
+                    <input type="text" name="titulo" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Descripción Breve:</label>
+                    <textarea name="descripcion" style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; resize: none;" class="form-control"></textarea>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Tipo de Actividad:</label>
+                    <select name="tipo" id="selectTipoActividad" class="form-control" onchange="cambiarCamposDinamicos()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" required>
+                        <option value="memorama">Memorama (Minijuego)</option>
+                        <option value="completar_espacio">Completar Espacio</option>
+                        <option value="baile">Rutina de Baile (Bienestar)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Puntos de Recompensa (EXP):</label>
+                    <input type="number" name="puntos_recompensa" value="20" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                </div>
+
+                <!-- CAMPOS DINÁMICOS SEGÚN EL TIPO SELECCIONADO -->
+                
+                <!-- 1. Memorama -->
+                <div class="campos-tipo campo-memorama" style="margin-bottom: 15px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Imagen URL (Tarjeta):</label>
+                    <input type="text" name="imagen_url" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    
+                    <label style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Dato Curioso:</label>
+                    <textarea name="dato_curioso" style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; resize: none;" class="form-control"></textarea>
+                </div>
+
+                <!-- 2. Completar Espacio -->
+                <div class="campos-tipo campo-completar_espacio" style="display:none; margin-bottom: 15px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Frase (Usa ___ para el espacio):</label>
+                    <input type="text" name="frase" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    
+                    <label style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Imagen de referencia URL:</label>
+                    <input type="text" name="imagen_url" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    
+                    <label style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Palabra Faltante:</label>
+                    <input type="text" name="palabra_faltante" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                </div>
+
+                <!-- 3. Rutina de Baile -->
+                <div class="campos-tipo campo-baile" style="display:none; margin-bottom: 15px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Video URL (Enlace):</label>
+                    <input type="text" name="video_url" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    
+                    <label style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Instrucciones de Movimiento:</label>
+                    <textarea name="instrucciones_movimiento" style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; resize: none;" class="form-control"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px;">
+                    <button type="button" class="btn-delete" style="padding: 10px 20px;" onclick="cerrarModalCrearActividad()">Cancelar</button>
+                    <button type="submit" class="btn-primary" style="padding: 10px 20px; background: #ff7a00;">Guardar y Notificar 🚀</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE CONTROL PARA FILTROS Y MODAL -->
+    <script>
+        function filtrarMateriasAdmin(materiaSeleccionada) {
+            const tarjetas = document.querySelectorAll('.materia-card');
+            
+            tarjetas.forEach(tarjeta => {
+                const nombreMat = tarjeta.getAttribute('data-nombre');
+                if (materiaSeleccionada === 'todas' || nombreMat.toLowerCase().includes(materiaSeleccionada.toLowerCase())) {
+                    tarjeta.style.display = 'flex';
+                } else {
+                    tarjeta.style.display = 'none';
+                }
+            });
+        }
+
+        function abrirModalCrearActividad(idMateria, nombreMateria) {
+            document.getElementById('input_id_materia').value = idMateria;
+            document.getElementById('tituloModalMateria').innerText = `Crear Actividad para: ${nombreMateria}`;
+            document.getElementById('modalCrearActividad').style.display = 'flex';
+        }
+
+        function cerrarModalCrearActividad() {
+            document.getElementById('modalCrearActividad').style.display = 'none';
+        }
+
+        function cambiarCamposDinamicos() {
+            const tipo = document.getElementById('selectTipoActividad').value;
+            document.querySelectorAll('.campos-tipo').forEach(el => el.style.display = 'none');
+            document.querySelector(`.campo-${tipo}`).style.display = 'block';
+        }
+
+        async function enviarCrearActividad(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+
+            try {
+                const response = await fetch('/admin/crear-actividad', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(result.mensaje);
+                    location.reload();
+                } else {
+                    alert("Error al registrar: " + result.detail);
+                }
+            } catch (error) {
+                console.error("Error de red:", error);
+                alert("Ocurrió un error al conectar con el servidor.");
+            }
+        }
+
+        // Cerrar modal haciendo clic fuera del contenido
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalCrearActividad');
+            if (event.target == modal) { 
+                modal.style.display = 'none'; 
+            }
+        }
+    </script>
+</body>
+</html>

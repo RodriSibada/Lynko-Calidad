@@ -1,0 +1,141 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Nunito', sans-serif; }
+        
+.main-content-wrapper {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: var(--bg-main, #FDF9F5);
+            box-sizing: border-box;
+        }
+
+        .form-container {
+            background: var(--card-bg, #FFFFFF);
+            width: 100%;
+            max-width: 650px; /* Ancho ideal elegante */
+            padding: 35px;
+            border-radius: 25px;
+            border: 1px solid #F0F0F0;
+            box-shadow: 0 10px 30px rgba(255, 122, 0, 0.05);
+        }
+
+        .sidebar-footer-btn a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+
+        .form-container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 550px;
+            padding: 35px;
+            border-radius: 25px;
+            border: 1px solid #F0F0F0;
+            box-shadow: 0 10px 30px rgba(255, 122, 0, 0.05);
+        }
+        h2 { font-weight: 900; color: #2D3748; margin-bottom: 8px; text-align: center; }
+        .subtitle { color: #718096; font-size: 14px; text-align: center; margin-bottom: 25px; }
+        
+        .form-group { margin-bottom: 18px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 14px; font-weight: 700; color: #666; margin-bottom: 6px; }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px 14px; border: 2px solid #F0F0F0; border-radius: 12px;
+            font-size: 14px; font-weight: 600; background: #FAFAFA; outline: none; transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--orange-primary); background: #FFF; }
+        
+        .options-block { background: #FFFBF7; padding: 15px; border-radius: 15px; border: 1px dashed #FFD4B2; margin-bottom: 20px; }
+        .options-block h4 { font-size: 14px; font-weight: 800; color: var(--orange-dark); margin-bottom: 12px; }
+        
+        .btn-submit {
+            background: var(--orange-primary); 
+            color: white; 
+            border: none; 
+            padding: 14px;
+            border-radius: 20px; 
+            font-weight: 800; 
+            font-size: 16px; 
+            cursor: pointer; 
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 122, 0, 0.2); 
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { 
+            background: var(--orange-dark); 
+        }
+
+        sidebar-footer-btn{
+            color: white; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 14px;
+        }
+        
+        /* Contenedor general */
+.cozy-options-container {
+    background: #fffbf0;
+    border: 2px dashed #fed7aa;
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 20px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.cozy-title {
+    color: #ea580c;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.cozy-subtitle {
+    color: #78716c;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Fila que une el radio y el input perfectamente en horizontal */
+.cozy-option-row {
+    display: flex !important;
+    align-items: center !important;
+    background: #ffffff !important;
+    border: 2px solid #e7e5e4 !important;
+    border-radius: 12px !important;
+    padding: 10px 14px !important;
+    margin-bottom: 12px !important;
+    gap: 12px !important; /* Espacio exacto entre el radio y la caja */
+    box-sizing: border-box !important;
+}
+
+.cozy-option-row:focus-within {
+    border-color: #ea580c !important;
+    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1) !important;
+}
+
+/* Radio button limpio */
+.cozy-radio {
+    accent-color: #ea580c !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+}
+
+/* Caja de texto transparente ocupando el resto del espacio */
+.cozy-text-input {
+    border: none !important;
+    outline: none !important;
+    width: 100% !important;
+    font-size: 14px !important;
+    color: #292524 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}

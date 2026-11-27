@@ -1,0 +1,129 @@
+.audio-container { margin: 20px 0; padding: 15px; background: #f0f4f8; border-radius: 12px; text-align: center; }
+        .question-container { background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .part-badge { display: inline-block; background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 9999px; margin-bottom: 10px; text-transform: uppercase; }
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 15px; }
+        .option-label { display: flex; align-items: center; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.2s ease; }
+        .option-label:hover { border-color: #3b82f6; background: #eff6ff; }
+        .option-label input { margin-right: 12px; transform: scale(1.2); }
+        .btn-submit { background: #10b981; color: white; border: none; padding: 14px 28px; font-size: 16px; font-weight: 800; border-radius: 12px; cursor: pointer; width: 100%; box-shadow: 0 4px 0 #047857; transition: all 0.1s ease; }
+        .btn-submit:active { transform: translateY(4px); box-shadow: none; }
+        .alert-box { padding: 30px; border-radius: 16px; text-align: center; font-size: 18px; font-weight: 700; background: white; border: 2px dashed #cbd5e1; }
+
+        /* --- TARJETA CLICKEABLE --- */
+.card-clickeable {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.card-clickeable:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);
+    border: 2px solid #f97316; /* Color naranja institucional */
+}
+
+.click-hint {
+    font-size: 13px;
+    font-weight: 700;
+    color: #f97316;
+    text-align: right;
+    margin-top: 10px;
+}
+
+/* --- MODAL SUPERPUESTO --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55); /* Fondo oscuro difuminado */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+}
+
+/* Contenedor del modal con bordes redondeados y estilo naranja */
+.modal-content-orange {
+    background: #ffffff;
+    width: 100%;
+    max-width: 750px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 28px; /* Bordes redondeados prominentes */
+    border: 4px solid #f97316; /* Borde naranja característico */
+    box-shadow: 0 15px 35px rgba(249, 115, 22, 0.3);
+    padding: 35px;
+    position: relative;
+    animation: zoomModal 0.3s ease-out;
+}
+
+@keyframes zoomModal {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Botón de cerrar (X) */
+.btn-cerrar-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.btn-cerrar-modal:hover {
+    background: #fca5a5;
+    color: #b91c1c;
+}
+
+/* --- ANIMACIÓN / MASCOTA LEYENDO --- */
+.mascota-animacion-container {
+    display: flex;
+    align-items: center;
+    background: #fff7ed;
+    border: 2px dashed #fdba74;
+    padding: 15px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+}
+
+.mascota-gif {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    animation: flotarMascota 2s ease-in-out infinite;
+}
+
+@keyframes flotarMascota {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.bocadillo-texto {
+    margin-left: 15px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #c2410c;
+}
+

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynko - Banco de Retos Semanales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght=500;700&family=Nunito:wght=400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/adim.css">
+    <link rel="stylesheet" href="/static/Reto_semanal.css">
+</head>
+<body id="admin-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <img src="https://cdn.phototourl.com/free/2026-06-08-2a556232-b138-49a7-a830-66b7ce8a4f19.png" alt="Lynko Logo">
+                </div>
+                <p class="logo-slogan">Panel de Control Central</p>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/admin"><i>📊</i> Inicio</a></li>
+                    <li class="nav-item"><a href="/admin/estudiantes"><i>👥</i> Alumnos y Ranking</a></li>  
+                    <li class="nav-item"><a href="/admin/nuevas-preguntas"><i>➕</i> Crear Preguntas</a></li>
+                    <li class="nav-item"><a href="/admin/preguntas"><i>📝</i> Banco de Preguntas</a></li>   
+                    <li class="nav-item active"><a href="/admin/gestion-retos"><i>📝</i> Banco de retos</a></li>   
+                    <li class="nav-item"><a href="/admin/retos/crear"><i>🎉</i> Retos Semanales</a></li>   
+                </ul>
+            </nav>
+        </div>
+        <div class="sidebar-footer-btn" style="padding-top: 20px;">
+            <a href="/login" style="color: white; text-decoration: none; font-weight: 700; font-size: 14px;">🚪 Cerrar Sesión</a>
+        </div>
+    </aside>
+
+    <main id="main-content-wrapper">
+
+        <div class="admin-layout" style="display: flex; flex-direction: column; gap: 30px;">
+            
+            {% if msg_alerta %}
+                <div style="padding: 15px; border-radius: 8px; font-weight: 700; background-color: {% if exito %} #d1fae5; color: #065f46; {% else %} #fee2e2; color: #991b1b; {% endif %}">
+                    {{ msg_alerta }}
+                </div>
+            {% endif %}
+
+            <!-- Sección 3: Historial y Banco de Retos -->
+            <section class="admin-card full-width-section">
+                <h3><i>📋</i> Historial y Banco de Retos Semanales</h3>
+                <div class="table-container" style="margin-top: 15px;">
+                    <table style="width: 100%; border-collapse: collapse;" class="modern-table">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 2px solid #e2e8f0; color: #718096; font-size: 14px;">
+                                <th style="padding: 12px; width: 8%;">ID</th>
+                                <th style="padding: 12px; width: 25%;">Título General del Cuento</th>
+                                <th style="padding: 12px; width: 15%;">EXP Global</th>
+                                <th style="padding: 12px; width: 20%;">Vigencia</th>
+                                <th style="padding: 12px; width: 32%;">Acciones de Contenido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for r in listado_retos %}
+                            <tr style="border-bottom: 1px solid #edf2f7;">
+                                <!-- 1. ID -->
+                                <td style="padding: 14px 12px; vertical-align: middle;">
+                                    <strong>#{{ r.id_reto }}</strong>
+                                </td>
+                                
+                                <!-- 2. Título General del Cuento -->
+                                <td style="padding: 14px 12px; vertical-align: middle;">
+                                    <span style="font-weight: 700; color: #1e293b;">{{ r.titulo }}</span>
+                                </td>
+                                
+                                <!-- 3. EXP Global (Puntos) -->
+                                <td style="padding: 14px 12px; vertical-align: middle;">
+                                    <span style="background-color: #FFF9C4; color: #F57F17; padding: 6px 10px; border-radius: 8px; font-weight: 800; display: inline-block;">
+                                        ⭐ {{ r.puntos_recompensa_total or '-' }} PTS
+                                    </span>
+                                </td>
+                                
+                                <!-- 4. Vigencia -->
+                                <td style="padding: 14px 12px; vertical-align: middle; font-size: 13px; color: #4a5568; line-height: 1.5;">
+                                    <span style="color: #10b981; font-weight: 600;">▶ {{ r.fecha_inicio }}</span><br>
+                                    <span style="color: #ef4444; font-weight: 600;">🛑 {{ r.fecha_fin }}</span>
+                                </td>
+                                
+                                <!-- 5. Acciones de Contenido (Botón del Modal Integrado) -->
+                                <td style="padding: 14px 12px; vertical-align: middle; white-space: nowrap;">
+                                    <button type="button" onclick="abrirModalPreguntas('modal-reto-{{ r.id_reto }}')" style="background: #FF7A00; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px; margin-right: 5px;">
+                                        👁️ Ver Preguntas
+                                    </button>
+                                    <a href="/admin/retos/{{ r.id_reto }}/agregar-pregunta" class="btn btn-sm btn-success" style="margin-right: 5px; text-decoration: none; padding: 6px 10px; border-radius: 6px;">➕ Agregar</a>
+                                    <a href="/admin/retos-semanales/eliminar/{{ r.id_reto }}" class="btn-table-delete" style="text-decoration: none; padding: 6px 10px; border-radius: 6px;" onclick="return confirm('¿Seguro que deseas eliminar este cuento completo?');">🗑️ Eliminar</a>
+                                </td>
+                            </tr>
+
+                            <!-- MODAL DE PREGUNTAS PARA CADA RETO -->
+                            <div id="modal-reto-{{ r.id_reto }}" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;">
+                                <div style="background: #FFFFFF; width: 100%; max-width: 600px; max-height: 85vh; overflow-y: auto; padding: 30px; border-radius: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                                    
+                                    <button type="button" onclick="cerrarModalPreguntas('modal-reto-{{ r.id_reto }}')" style="position: absolute; top: 15px; right: 15px; background: #F0F0F0; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer;">✖</button>
+
+                                    <h3 style="color: #2D3748; margin-bottom: 5px;">Preguntas del Reto: {{ r.titulo }}</h3>
+                                    <p style="color: #718096; font-size: 13px; margin-bottom: 20px;">Listado de preguntas y opciones registradas para este cuento.</p>
+
+                                    {% if r.preguntas %}
+                                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                                            {% for pregunta in r.preguntas %}
+                                                <div style="background: #FFFBF7; padding: 15px; border-radius: 12px; border: 1px dashed #FFD4B2;">
+                                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                                        <strong style="color: #1e293b; font-size: 14px;">{{ loop.index }}. {{ pregunta.pregunta }}</strong>
+                                                        <span style="background: #FF7A00; color: white; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">{{ pregunta.puntos }} pts</span>
+                                                    </div>
+
+                                                    <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+                                                        {% for opcion in pregunta.opciones %}
+                                                            <div style="padding: 6px 10px; border-radius: 6px; font-size: 13px; background: {% if opcion.es_correcta %} #E6F4EA; border: 1px solid #CEEAD6; color: #137333; {% else %} #FFFFFF; border: 1px solid #E2E8F0; color: #4A5568; {% endif %}">
+                                                                {% if opcion.es_correcta %}✅ <strong>(Correcta)</strong> {% else %}⚪ {% endif %}{{ opcion.opcion }}
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <p style="text-align: center; color: #718096; padding: 20px; font-style: italic;">Este reto aún no cuenta con preguntas añadidas.</p>
+                                    {% endif %}
+
+                                    <div style="margin-top: 25px; text-align: right;">
+                                        <button type="button" onclick="cerrarModalPreguntas('modal-reto-{{ r.id_reto }}')" style="background: #E2E8F0; color: #4A5568; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; cursor: pointer;">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Script de control de los Modales -->
+    <script>
+        function abrirModalPreguntas(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = "flex";
+            }
+        }
+
+        function cerrarModalPreguntas(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

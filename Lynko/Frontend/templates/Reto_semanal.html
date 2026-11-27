@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynko - Reto de la semana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/progreso.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/retos.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <img src="https://cdn.phototourl.com/free/2026-06-08-2a556232-b138-49a7-a830-66b7ce8a4f19.png" alt="Lynko Logo">
+                </div>
+                <p>Aprender nunca fue tan divertido</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/inicio-estudiante/{{ id_usuario }}"><i>🏠</i> Inicio</a></li>
+                <li class="nav-item"><a href="/actividades-estudiante/{{ id_usuario }}"><i>✍️</i> Actividades</a></li> 
+                  
+                <li class="nav-item active"><a href="/progreso-estudiante/{{ id_usuario }}"> <i>🎉</i> Reto Semanal</a></li>   
+                <li class="nav-item"><a href="/recompensas-estudiante/{{ id_usuario }}"><i>🏆</i> Recompensas</a></li>   
+                <li class="nav-item"><a href="/perfil-estudiante/{{ id_usuario }}"><i>👤</i> Perfil</a></li>   
+                <li class="nav-item"><a href="/ajustes-estudiante/{{ id_usuario }}"><i>⚙️</i> Ajustes</a></li>   
+            </ul>
+        </div>
+        <div style="padding: 20px;" id="logout-wrapper">
+            <a href="/login" style="color: rgb(255, 33, 33); text-decoration: none; font-weight: 700; font-size: 14px;">🚪 Cerrar Sesión</a>
+        </div>
+    </aside>
+    
+   <main class="main-content">
+    <header class="header-top">
+            <div class="welcome-text">
+                <h1>Retos de esta semana</h1>
+                <p>¡Elige un reto y demuestra lo que sabes!</p>
+            </div>
+            <div class="user-status">
+    <div class="profile-badge">
+        <!-- Reemplazamos el placeholder vacío por la imagen dinámica -->
+        <div class="avatar-placeholder" style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fffbf0; border: 2px solid #ea580c;">
+            {% if avatar_perfil %}
+                <img src="{{ avatar_perfil }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+            {% else %}
+                <span style="font-size: 20px;">👧</span>
+            {% endif %}
+        </div>
+        <div class="info">
+            <p>{{ nombre }}</p>
+            <span>Nivel {{ nivel }} ➔</span>
+        </div>
+    </div>
+    <div class="points-badge">
+        ⭐ {{ puntos }} <span>puntos</span>
+    </div>
+                <button type="button" id="btnCampanita" class="notification-btn" style="position: relative; background: none; border: none; font-size: 20px; cursor: pointer;">
+                🔔
+                <div class="notification-badge" style="display: none; position: absolute; top: -5px; right: -5px; background: #e53e3e; color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%; font-weight: bold;">0</div>
+            </button>
+            <!-- 2. El Modal Global (Oculto por defecto, se centra en la pantalla y se sale haciendo clic en el fondo) -->
+             <div id="modalNotificacionesGlobal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000;">
+                <div style="background: #ffffff; width: 100%; max-width: 500px; max-height: 80vh; overflow-y: auto; padding: 25px; border-radius: 20px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        
+                    <!-- Botón para cerrar con la "X" -->
+                     <button type="button" id="cerrarModalNotificaciones" style="position: absolute; top: 15px; right: 15px; background: #edf2f7; border: none; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; cursor: pointer;">✖</button>
+                     <h3 style="color: #2d3748; margin-top: 0; margin-bottom: 15px; font-size: 18px;">📥 Historial de Avisos y Alertas</h3>
+        
+                     <!-- Contenedor dinámico donde JS inyectará las alertas -->
+                      <div id="listaNotificacionesContenedor" style="display: flex; flex-direction: column; gap: 10px;">
+                        <p style="text-align: center; color: #718096; padding: 20px;">Cargando notificaciones...</p>
+                    </div>
+
+                </div>
+            </div>
+    <div style="padding: 20px;" id="logout-wrapper">
+    <a href="/logout" style="color: rgb(255, 33, 33); text-decoration: none; font-weight: 700; font-size: 14px;">🚪 Cerrar Sesión</a>
+</div>
+</div>
+            </div>
+        </header>
+    
+    {% if reto %}
+        
+        {% if not reto.completado %}
+            <div class="weekly-challenge-card card-clickeable" onclick="abrirModalReto()">
+                <div class="challenge-badge">✨ RETO DE LA SEMANA</div>
+                
+                <div class="challenge-content">
+                    <div class="challenge-icon-box">
+                        <span class="challenge-emoji">📖</span>
+                    </div>
+                    
+                    <div class="challenge-details">
+                        <div class="challenge-header-row">
+                            <h3 class="challenge-title">{{ reto.titulo }}</h3>
+                            <span class="challenge-reward">💎 {{ reto.puntos_recompensa_max }} Puntos</span>
+                        </div>
+            
+                        <p class="challenge-description">
+                            {{ reto.descripcion }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="click-hint">¡Haz clic para comenzar el reto! 🚀</div>
+            </div>
+
+            <div id="modalReto" class="modal-overlay" style="display: none;">
+                <div class="modal-content-orange">
+                    <button type="button" class="btn-cerrar-modal" onclick="cerrarModalReto()">✖</button>
+                    
+                    <div class="mascota-animacion-container">
+                        <img src="https://cdn.phototourl.com/member/2026-06-27-0eff9553-81bb-448d-9d23-d2d1dccdb8a6.png" alt="Patica leyendo" class="mascota-gif">
+                        <div class="bocadillo-texto">¡Hola! Lee con atención y responde las preguntas. 🐾</div>
+                    </div>
+                    
+                    {% if reto and reto.link_audio %}
+                     <div class="audio-container" style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                        <p style="font-weight: 700; color: #475569; margin-bottom: 12px;">
+                            🎧 Escucha el cuento atentamente antes de responder:
+                        </p>
+
+                        {# 1. Limpieza de barras invertidas de Windows a formato web #}
+                        {% set clean_path = reto.link_audio | replace('\\', '/') %}
+                        {# 2. Determinamos la URL final del recurso de audio #}
+                        {% if clean_path.startswith('http://') or clean_path.startswith('https://') %}
+                        {# Es una URL externa, la usamos tal cual #}
+                        {% set final_audio_url = clean_path %}
+                        {% elif clean_path.startswith('/') %}
+                        {# Es una ruta absoluta local (ej. /storage/cuentos/audio.mp3), la usamos tal cual #}
+                        {% set final_audio_url = clean_path %}
+                        {% else %}
+                        {# Es solo el nombre del archivo o ruta relativa (ej. "audio.mp3" o "audios/audio.mp3") #}
+                        {# CORRECCIÓN AQUÍ: Apuntamos a /storage/ #}
+                        {% set final_audio_url = '/storage/' ~ clean_path.split('/')[-1] %}
+                    {% endif %}
+
+                    <audio controls style="width: 100%; max-width: 500px;"> 
+                        <source src="{{ final_audio_url }}" type="audio/mpeg">
+                        Tu navegador no soporta el elemento de audio.
+                    </audio>
+                </div>
+                {% endif %}
+
+                    <form action="/guardar-reto/{{ id_usuario }}/{{ reto.id_reto }}" method="POST" style="margin-top: 20px;">
+                        
+                        {% for pregunta in reto.preguntas %}
+                            <div class="question-container">
+                                <span class="part-badge">Parte: {{ pregunta.parte_cuento }}</span>
+                                <p style="font-size: 15px; font-weight: 700; color: #1e293b;">
+                                    {{ loop.index }}. {{ pregunta.pregunta }} 
+                                    <span style="font-size: 13px; color: #64748b; font-weight: 400;">({{ pregunta.puntos_disponibles }} pts)</span>
+                                </p>
+                                
+                                <div class="options-grid">
+                                    {% for opcion in pregunta.opciones %}
+                                        <label class="option-label">
+                                            <input type="radio" name="pregunta_{{ pregunta.id_pregunta }}" value="{{ opcion.id_opcion }}" required>
+                                            <span>{{ opcion.opcion }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div style="margin-top: 30px; text-align: center;">
+                            <button type="submit" class="btn-submit">Enviar mis respuestas y ganar puntos 🚀</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        {% elif reto.completado %}
+            <div class="card-reto completado" style="background: #fff; padding: 30px; border-radius: 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <h3>🎉 ¡Reto Completado!</h3>
+                <p>Ya has reclamado tu recompensa por el reto de esta semana. ¡Vuelve la próxima semana por más!</p>
+            </div>
+        {% endif %}
+
+    {% else %}
+        <div class="card-reto vacio" style="background: #fff; padding: 30px; border-radius: 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <h3>☕ Sin retos activos</h3>
+            <p>{{ mensaje if mensaje else "No hay retos disponibles en este momento." }}</p>
+        </div>
+    {% endif %}
+
+</main>
+
+</main>
+</body>
+<script>
+    function abrirModalReto() {
+        const modal = document.getElementById('modalReto');
+        if (modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Evita scroll de fondo
+        }
+    }
+
+    function cerrarModalReto() {
+        const modal = document.getElementById('modalReto');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restaura scroll
+        }
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnCampanita = document.getElementById("btnCampanita");
+        const modalNotificaciones = document.getElementById("modalNotificacionesGlobal");
+        const cerrarModalBtn = document.getElementById("cerrarModalNotificaciones");
+        const contenedorNotificaciones = document.getElementById("listaNotificacionesContenedor");
+        const badgeNotificaciones = document.querySelector(".notification-badge");
+
+        // Datos de notificaciones inyectados desde FastAPI de forma segura
+        const notificacionesData = {{ notificaciones | tojson | safe }};
+        const noLeidasCount = {{ notificaciones_no_leidas | default(0) }};
+
+        // Mostrar u ocultar el badge rojo con el número de no leídas
+        if (badgeNotificaciones) {
+            if (noLeidasCount > 0) {
+                badgeNotificaciones.style.display = "inline-block";
+                badgeNotificaciones.textContent = noLeidasCount;
+            } else {
+                badgeNotificaciones.style.display = "none";
+            }
+        }
+
+        // Abrir el modal al hacer clic en la campanita
+        if (btnCampanita && modalNotificaciones) {
+            btnCampanita.addEventListener("click", function () {
+                modalNotificaciones.style.display = "flex";
+                document.body.style.overflow = "hidden"; // Bloquea el scroll del fondo
+                renderizarNotificaciones();
+            });
+        }
+
+        // Cerrar el modal con el botón de la "X"
+        if (cerrarModalBtn && modalNotificaciones) {
+            cerrarModalBtn.addEventListener("click", function () {
+                modalNotificaciones.style.display = "none";
+                document.body.style.overflow = "auto"; // Restaura el scroll
+            });
+        }
+
+        // Cerrar el modal si se hace clic fuera del contenido (en el fondo oscuro)
+        if (modalNotificaciones) {
+            modalNotificaciones.addEventListener("click", function (event) {
+                if (event.target === modalNotificaciones) {
+                    modalNotificaciones.style.display = "none";
+                    document.body.style.overflow = "auto";
+                }
+            });
+        }
+
+        // Función para pintar las notificaciones dinámicamente en el contenedor
+        function renderizarNotificaciones() {
+            if (!notificacionesData || notificacionesData.length === 0) {
+                contenedorNotificaciones.innerHTML = `
+                    <div style="text-align: center; color: #718096; padding: 20px;">
+                        <p style="font-size: 30px; margin: 0 0 10px 0;">📭</p>
+                        <p style="margin: 0; font-weight: 500;">No tienes notificaciones recientes.</p>
+                    </div>`;
+                return;
+            }
+
+            let htmlContenido = "";
+            notificacionesData.forEach(notif => {
+                let bgColor = notif.leida ? "#f8fafc" : "#fff7ed"; // Naranja suavecito si no está leída
+                let borderColor = notif.leida ? "#e2e8f0" : "#fdba74";
+                
+                htmlContenido += `
+                    <div style="background: ${bgColor}; border: 1px solid ${borderColor}; padding: 12px 15px; border-radius: 12px; position: relative;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <strong style="color: #2d3748; font-size: 14px;">${notif.titulo}</strong>
+                            <span style="font-size: 11px; color: #a0aec0;">${notif.fecha_creacion || ''}</span>
+                        </div>
+                        <p style="margin: 0; color: #4a5568; font-size: 13px;">${notif.mensaje}</p>
+                    </div>
+                `;
+            });
+
+            contenedorNotificaciones.innerHTML = htmlContenido;
+        }
+    });
+</script>
+</html>

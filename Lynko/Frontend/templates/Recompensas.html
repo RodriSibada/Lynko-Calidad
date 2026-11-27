@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynko - Recompensas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/recompensa.css">
+    <link rel="stylesheet" href="/static/styles.css">
+
+</head>
+<body>
+
+    
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <div class="logo-container">
+                <div class="logo-placeholder"><img src="https://cdn.phototourl.com/free/2026-06-08-2a556232-b138-49a7-a830-66b7ce8a4f19.png"></div>
+                <p>Aprender nunca fue tan divertido</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/inicio-estudiante/{{ id_usuario }}"><i>🏠</i> Inicio</a></li>
+                <li class="nav-item"><a href="/actividades-estudiante/{{ id_usuario }}"><i>✍️</i> Actividades</a></li>
+                  
+                <li class="nav-item"><a href="/progreso-estudiante/{{ id_usuario }}"> 🎉</i> Reto Semanal</a></li>   
+                <li class="nav-item active"><a href="/recompensas-estudiante/{{ id_usuario }}"><i>🏆</i> Recompensas</a></li>   
+                <li class="nav-item"><a href="/perfil-estudiante/{{ id_usuario }}"><i>👤</i> Perfil</a></li>
+                <li class="nav-item"><a href="/ajustes-estudiante/{{ id_usuario }}"><i>⚙️</i> Ajustes</a></li>
+            </ul>
+        </div>
+        <div class="streak-card">
+            <div class="streak-fire">🔥</div>
+            <div class="streak-info"><span>Racha de estudio</span><strong>{{racha}} Días</strong><span style="color: var(--orange-primary);">¡Sigue así!</span></div>
+        </div>
+        <div style="padding: 20px;" id="logout-wrapper">
+            <a href="/login" style="color: white; text-decoration: none; font-weight: 700; font-size: 14px;">🚪 Cerrar Sesión</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="header-top">
+            <div class="welcome-text">
+                <h1>Mis Vitrina de Trofeos 🏆</h1>
+                <p>¡Cada logro demuestra tu súper esfuerzo!</p>
+            </div>
+            <div class="user-status">
+    <div class="profile-badge">
+        <!-- Reemplazamos el placeholder vacío por la imagen dinámica -->
+        <div class="avatar-placeholder" style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fffbf0; border: 2px solid #ea580c;">
+            {% if avatar_perfil %}
+                <img src="{{ avatar_perfil }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+            {% else %}
+                <span style="font-size: 20px;">👧</span>
+            {% endif %}
+        </div>
+        <div class="info">
+            <p>{{ nombre }}</p>
+            <span>Nivel {{ nivel }} ➔</span>
+        </div>
+    </div>
+    <div class="points-badge">
+        ⭐ {{ puntos }} <span>puntos</span>
+    </div>
+                <button type="button" id="btnCampanita" class="notification-btn" style="position: relative; background: none; border: none; font-size: 20px; cursor: pointer;">
+                🔔
+                <div class="notification-badge" style="display: none; position: absolute; top: -5px; right: -5px; background: #e53e3e; color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%; font-weight: bold;">0</div>
+            </button>
+            <!-- 2. El Modal Global (Oculto por defecto, se centra en la pantalla y se sale haciendo clic en el fondo) -->
+             <div id="modalNotificacionesGlobal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000;">
+                <div style="background: #ffffff; width: 100%; max-width: 500px; max-height: 80vh; overflow-y: auto; padding: 25px; border-radius: 20px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        
+                    <!-- Botón para cerrar con la "X" -->
+                     <button type="button" id="cerrarModalNotificaciones" style="position: absolute; top: 15px; right: 15px; background: #edf2f7; border: none; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; cursor: pointer;">✖</button>
+                     <h3 style="color: #2d3748; margin-top: 0; margin-bottom: 15px; font-size: 18px;">📥 Historial de Avisos y Alertas</h3>
+        
+                     <!-- Contenedor dinámico donde JS inyectará las alertas -->
+                      <div id="listaNotificacionesContenedor" style="display: flex; flex-direction: column; gap: 10px;">
+                        <p style="text-align: center; color: #718096; padding: 20px;">Cargando notificaciones...</p>
+                    </div>
+
+                </div>
+            </div>
+    <div style="padding: 20px;" id="logout-wrapper">
+    <a href="/logout" style="color: rgb(255, 33, 33); text-decoration: none; font-weight: 700; font-size: 14px;">🚪 Cerrar Sesión</a>
+</div>
+</div>
+            </div>
+        </header>
+
+        <section class="rewards-showcase">
+    <!-- Mostrar los ganados -->
+    {% for logro in logros_alcanzados %}
+    <div class="badge-box card-clickeable" onclick="abrirModalLogro('modal-logro-{{ loop.index }}')">
+        <div class="badge-icon-circle">
+            <img src="{{ logro.imagen_medalla }}" alt="{{ logro.nombre }}">
+        </div>
+        <div>
+            <h4 style="font-weight: 800;">{{ logro.nombre }}</h4>
+            <p style="font-size: 12px; color: var(--text-muted);">{{ logro.descripcion }}</p>
+        </div>
+    </div>
+
+    <!-- Modal para cada Logro Alcanzado -->
+    <div id="modal-logro-{{ loop.index }}" class="modal-overlay" style="display: none;">
+        <div class="modal-content-orange">
+            <button type="button" class="btn-cerrar-modal" onclick="cerrarModalLogro('modal-logro-{{ loop.index }}')">✖</button>
+            
+            <div style="text-align: center;">
+                <h3 style="color: #2D3748; margin-bottom: 20px; font-size: 22px;">{{ logro.nombre }}</h3>
+                
+                <!-- Imagen en tamaño grande -->
+                <div class="modal-img-container">
+                    <img src="{{ logro.imagen_medalla }}" alt="{{ logro.nombre }}" class="modal-badge-img">
+                </div>
+
+                <!-- Descripción sin comentarios -->
+                <p class="modal-description">{{ logro.descripcion }}</p>
+                
+                <div style="margin-top: 20px;">
+                    <span style="background: #E6F4EA; color: #137333; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700;">✅ ¡Logro Obtenido!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Mostrar los pendientes -->
+    {% for logro in logros_pendientes %}
+    <div class="badge-box locked card-clickeable" onclick="abrirModalLogro('modal-logro-pend-{{ loop.index }}')">
+        <div class="badge-icon-circle">
+            <img src="{{ logro.imagen_medalla }}" alt="{{ logro.nombre }}">
+        </div>
+        <div>
+            <h4 style="font-weight: 800;">{{ logro.nombre }}</h4>
+            <p style="font-size: 12px; color: var(--text-muted);">{{ logro.descripcion }}</p>
+        </div>
+    </div>
+
+    <!-- Modal para cada Logro Pendiente (Bloqueado) -->
+    <div id="modal-logro-pend-{{ loop.index }}" class="modal-overlay" style="display: none;">
+        <div class="modal-content-orange">
+            <button type="button" class="btn-cerrar-modal" onclick="cerrarModalLogro('modal-logro-pend-{{ loop.index }}')">✖</button>
+            
+            <div style="text-align: center;">
+                <h3 style="color: #2D3748; margin-bottom: 20px; font-size: 22px;">{{ logro.nombre }}</h3>
+                
+                <!-- Imagen grande en escala de grises -->
+                <div class="modal-img-container">
+                    <img src="{{ logro.imagen_medalla }}" alt="{{ logro.nombre }}" class="modal-badge-img locked-img">
+                </div>
+
+                <!-- Descripción limpia -->
+                <p class="modal-description">{{ logro.descripcion }}</p>
+                
+                <div style="margin-top: 20px;">
+                    <span style="background: #FEE2E2; color: #B91C1C; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700;">🔒 Logro Bloqueado</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+
+
+    </main>
+</body>
+<script>
+    function abrirModalLogro(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarModalLogro(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Cerrar al hacer clic fuera del contenido del modal
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            event.target.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnCampanita = document.getElementById("btnCampanita");
+        const modalNotificaciones = document.getElementById("modalNotificacionesGlobal");
+        const cerrarModalBtn = document.getElementById("cerrarModalNotificaciones");
+        const contenedorNotificaciones = document.getElementById("listaNotificacionesContenedor");
+        const badgeNotificaciones = document.querySelector(".notification-badge");
+
+        // Datos de notificaciones inyectados desde FastAPI de forma segura
+        const notificacionesData = {{ notificaciones | tojson | safe }};
+        const noLeidasCount = {{ notificaciones_no_leidas | default(0) }};
+
+        // Mostrar u ocultar el badge rojo con el número de no leídas
+        if (badgeNotificaciones) {
+            if (noLeidasCount > 0) {
+                badgeNotificaciones.style.display = "inline-block";
+                badgeNotificaciones.textContent = noLeidasCount;
+            } else {
+                badgeNotificaciones.style.display = "none";
+            }
+        }
+
+        // Abrir el modal al hacer clic en la campanita
+        if (btnCampanita && modalNotificaciones) {
+            btnCampanita.addEventListener("click", function () {
+                modalNotificaciones.style.display = "flex";
+                document.body.style.overflow = "hidden"; // Bloquea el scroll del fondo
+                renderizarNotificaciones();
+            });
+        }
+
+        // Cerrar el modal con el botón de la "X"
+        if (cerrarModalBtn && modalNotificaciones) {
+            cerrarModalBtn.addEventListener("click", function () {
+                modalNotificaciones.style.display = "none";
+                document.body.style.overflow = "auto"; // Restaura el scroll
+            });
+        }
+
+        // Cerrar el modal si se hace clic fuera del contenido (en el fondo oscuro)
+        if (modalNotificaciones) {
+            modalNotificaciones.addEventListener("click", function (event) {
+                if (event.target === modalNotificaciones) {
+                    modalNotificaciones.style.display = "none";
+                    document.body.style.overflow = "auto";
+                }
+            });
+        }
+
+        // Función para pintar las notificaciones dinámicamente en el contenedor
+        function renderizarNotificaciones() {
+            if (!notificacionesData || notificacionesData.length === 0) {
+                contenedorNotificaciones.innerHTML = `
+                    <div style="text-align: center; color: #718096; padding: 20px;">
+                        <p style="font-size: 30px; margin: 0 0 10px 0;">📭</p>
+                        <p style="margin: 0; font-weight: 500;">No tienes notificaciones recientes.</p>
+                    </div>`;
+                return;
+            }
+
+            let htmlContenido = "";
+            notificacionesData.forEach(notif => {
+                let bgColor = notif.leida ? "#f8fafc" : "#fff7ed"; // Naranja suavecito si no está leída
+                let borderColor = notif.leida ? "#e2e8f0" : "#fdba74";
+                
+                htmlContenido += `
+                    <div style="background: ${bgColor}; border: 1px solid ${borderColor}; padding: 12px 15px; border-radius: 12px; position: relative;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <strong style="color: #2d3748; font-size: 14px;">${notif.titulo}</strong>
+                            <span style="font-size: 11px; color: #a0aec0;">${notif.fecha_creacion || ''}</span>
+                        </div>
+                        <p style="margin: 0; color: #4a5568; font-size: 13px;">${notif.mensaje}</p>
+                    </div>
+                `;
+            });
+
+            contenedorNotificaciones.innerHTML = htmlContenido;
+        }
+    });
+</script>
+</html>

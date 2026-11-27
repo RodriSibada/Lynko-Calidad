@@ -1,0 +1,31 @@
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 15px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-weight: 700; font-size: 14px; color: #4a5568; }
+        .form-group input, .form-group textarea, .form-group select { padding: 10px 14px; border: 2px solid #cbd5e1; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 14px; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #ff8c00; outline: none; }
+        
+        /* Contenedores para las partes dinámicas del cuento */
+        .story-parts-container { margin-top: 25px; display: flex; flex-direction: column; gap: 20px; }
+        .story-part-card { background: #f8fafc; border: 2px solid #e2e8f0; padding: 20px; border-radius: 12px; position: relative; animation: fadeIn 0.3s ease; }
+        .story-part-card h4 { font-family: 'Fredoka', sans-serif; color: #ff8c00; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 16px; }
+        
+        /* Casilla interactiva con líneas punteadas para agregar partes */
+        .add-part-card { border: 3px dashed #cbd5e1; background: #ffffff; padding: 25px; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.2s ease; margin-top: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+        .add-part-card:hover { border-color: #ff8c00; background: #fffbf5; transform: scale(1.01); }
+        .add-part-card .icon-plus { font-size: 32px; color: #cbd5e1; transition: color 0.2s; }
+        .add-part-card:hover .icon-plus { color: #ff8c00; }
+        .add-part-card span { font-family: 'Fredoka', sans-serif; font-weight: 700; color: #64748b; }
+        .add-part-card:hover span { color: #ff8c00; }
+
+        /* Botón para eliminar un capítulo agregado por error */
+        .btn-remove-part { position: absolute; top: 15px; right: 15px; background: #fee2e2; color: #ef4444; border: none; padding: 5px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; }
+        .btn-remove-part:hover { background: #fca5a5; }
+        
+        .btn-submit-form { background-color: #ff8c00; color: white; border: none; padding: 12px 24px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-top: 15px; font-family: 'Fredoka', sans-serif; }
+        .btn-submit-form:hover { background-color: #e07b00; }
+        .btn-table-delete { background-color: #ef4444; color: white; text-decoration: none; display: inline-block; padding: 5px 10px; font-size: 12px; border-radius: 4px; font-weight: 600; margin-left: 5px; }
+        .btn-table-delete:hover { background-color: #dc2626; }
+        .btn-table-add-questions { background-color: #10b981; color: white; text-decoration: none; display: inline-block; padding: 5px 10px; font-size: 12px; border-radius: 4px; font-weight: 600; }
+        .btn-table-add-questions:hover { background-color: #059669; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

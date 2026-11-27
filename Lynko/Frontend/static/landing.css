@@ -1,0 +1,638 @@
+/* ==========================================================================
+   1. ESTILOS BASE Y GENERALES (RESET & TIPOGRAFÍA)
+   ========================================================================== */
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFBF7; 
+    color: #2D3748;
+    box-sizing: border-box;
+}
+
+p {
+    font-family: 'Varela Round', cursive;
+    font-size: 20px; 
+    font-weight: 600;
+    color: #4A5568;
+    margin-top: 0;
+}
+
+header {
+    background-color: #FFFFFF;
+    border-bottom: 2px solid #FEEBC8;
+}
+
+footer {
+    background-color: #2D3748;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+h1, h2, h3, h4 {
+    margin: 0;
+    font-weight: 900;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA Y DISEÑO DE LA LANDING (HERO, SECCIONES Y GRID)
+   ========================================================================== */
+#main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 50px;
+    background-color: #FFFBF0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(230, 110, 0, 0.05);
+    border-bottom: 2px solid #FED7AA;
+}
+
+/* Contenedor del Logo */
+.logo-container img {
+    height: 100px;
+    width: auto;
+    transition: transform 0.2s ease;
+}
+
+.logo-container img:hover {
+    transform: scale(1.05);
+}
+
+/* Enlaces de Navegación Central */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-item-link {
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #78716c;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-item-link:hover {
+    color: #ea580c;
+    transform: translateY(-2px);
+}
+
+/* Botón de Acción Principal (Únete / Registrarse) */
+.btn-primary {
+    font-family: 'Fredoka', sans-serif;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: #ffffff;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 6px 0 #c2410c, 0 10px 15px rgba(234, 88, 12, 0.3);
+    transition: all 0.15s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #c2410c, 0 12px 20px rgba(234, 88, 12, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #c2410c, 0 4px 8px rgba(234, 88, 12, 0.2);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN (Móviles y Tablets)
+   ========================================== */
+@media (max-width: 900px) {
+    #main-header {
+        padding: 15px 20px;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+}
+
+/* 🎨 CORRECCIÓN DEL HERO Y SU FONDO PARA QUE NO SE EXTIENDA HACIA ABAJO */
+#hero-section {
+    display: flex;
+    flex-direction: row;            
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 50px;
+    min-height: 70vh;
+    
+    /* Propiedades clave del fondo aisladas solo para este contenedor */
+    background-image: url('https://cdn.phototourl.com/member/2026-10-14-b1a7c832-73d2-4fc4-a569-0a77ae7d7930.png'); 
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    background-position: center; 
+    
+    /* Control de desbordamiento por seguridad visual */
+    width: 100%;
+    height: 900px;
+    box-sizing: border-box;
+}
+
+#features-section {
+    padding: 50px 100px;
+    background-color: #FFFFFF;
+    margin: 30px 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(255, 122, 0, 0.05); 
+}
+
+/* Contenedor del contenido textual del Hero organizado verticalmente estilo acogedor/infantil */
+.hero-contenido {
+    background: rgba(255, 255, 255, 0.705); /* Fondo crema/blanco translúcido mejorado */
+    backdrop-filter: blur(12px);          /* Efecto de vidrio esmerilado suave */
+    padding: 40px;
+    border-radius: 32px;                   /* Bordes muy suaves y orgánicos estilo UI infantil */
+    border: 3px solid #FED7AA;             /* Tono melocotón cálido institucional */
+    box-shadow: 0 20px 40px rgba(234, 88, 12, 0.10); /* Sombra difuminada elegante */
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;         
+    justify-content: center;
+    margin-left: 600px;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: row;            
+    align-items: center;
+    gap: 10px;
+}
+
+.features-grid {
+    display: flex;
+    flex-direction: row;            
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.hero-imagen-div {
+    width: 45%;
+    height: 400px;
+    background-image: url('https://cdn.phototourl.com/free/2026-06-26-09afa2a9-9e63-48c2-903d-d27facaf7c0a.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 24px;
+    border: 4px solid #FF7A00; 
+}
+
+.hero-titulo {
+    font-size: 42px;
+    color: #2D3748;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.hero-subtitulo {
+    font-size: 18px;
+    color: #718096;
+    margin-bottom: 30px;
+}
+
+.hero-canvas-card {
+    width: 48%;
+    min-height: 380px;
+    background: #FFFFFF;
+    border: 4px solid #FED7AA;
+    border-radius: 32px;
+    box-shadow: 0 20px 40px rgba(234, 88, 12, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-title-container {
+    text-align: center;
+    font-size: 26px;
+    color: #2D3748;
+}
+
+/* ==========================================================================
+   🎥 CONTENEDOR DE VIDEO DE JUGABILIDAD INFERIOR
+   ========================================================================== */
+#demo-jugabilidad-section {
+    padding: 60px 20px;
+    background-color: #FFFBF7; 
+    width: 100%;
+    height: 900px;
+    box-sizing: border-box;
+    background-image: url('https://cdn.phototourl.com/free/2026-09-03-ece2d4cf-8c5f-4f78-8974-99486c7f9a8b.png'); 
+    background-repeat: no-repeat; 
+    background-size: 100% 100%; 
+    background-position: center; 
+}
+
+
+/* El recuadro del video en sí, con un toque translúcido para que destaque sobre el nuevo fondo */
+.video-container-landing {
+    max-width: 850px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    padding: 16px;
+    border-radius: 28px;
+    border: 4px solid #FFD0B3;
+    box-shadow: 0 15px 35px rgba(255, 122, 0, 0.15);
+}
+
+.landing-gameplay-video {
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    border-radius: 18px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Ajuste responsive para celulares */
+@media (max-width: 900px) {
+    #hero-section {
+        flex-direction: column;
+        gap: 30px;
+        padding: 40px 20px;
+    }
+    
+    .hero-contenido, .hero-canvas-card {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .hero-canvas-card {
+        min-height: 250px;
+    }
+}
+
+/* Logos y Textos */
+.logo-texto {
+    color: #FF7A00;
+    font-size: 28px;
+}
+
+.logo-emoji {
+    font-size: 32px;
+}
+
+/* ==========================================================================
+   3. TARJETAS DE MATERIAS (FEATURES CARDS)
+   ========================================================================== */
+.feature-card {
+    flex: 1;
+    min-width: 250px;
+    background-color: #FFFBF7;
+    padding: 30px;               
+    margin: 10px;                
+    border-radius: 16px;
+    border: 2px solid #FEEBC8;
+    text-align: center;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;         
+    align-items: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px); 
+}
+
+.card-icon {
+    width: 120px;               
+    height: 120px;              
+    display: flex;
+    flex-direction: row;       
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    border-radius: 24px;        
+    box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.06); 
+    transition: transform 0.3s ease;
+}
+
+.card-icon img, .card-icon span {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    font-size: 65px;            
+}
+
+.feature-card:hover .card-icon {
+    transform: scale(1.08) rotate(3deg); 
+}
+
+.math-bg { 
+    background-color: #EBF8FF; 
+    border: 3px solid #BEE3F8;
+}
+
+.bio-bg { 
+    background-color: #E6FFFA; 
+    border: 3px solid #B2F5EA;
+}
+
+.esp-bg { 
+    background-color: #FEFCBF; 
+    border: 3px solid #FAF089;
+}
+
+/* ==========================================================================
+   4. COMPONENTES DE BOTONES GENERALES
+   ========================================================================== */
+.btn-primary, .btn-cta, .btn-secondary {
+    color: #FFFFFF;
+    padding: 10px 22px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-flex;    
+    flex-direction: row;            
+    align-items: center;    
+    justify-content: center;  
+}
+
+.btn-primary, .btn-cta {
+    background-color: #FF7A00;
+    border: 2px solid #FF7A00;
+}
+
+.btn-cta {
+    padding: 15px 35px;
+    font-size: 18px;
+    box-shadow: 0 8px 20px rgba(255, 122, 0, 0.3);
+}
+
+.btn-secondary {
+    color: #FF7A00;
+    border: 2px solid #FEEBC8;
+}
+
+.btn-primary:hover, .btn-cta:hover {
+    background-color: #E66E00;
+}
+
+/* ==========================================================================
+   🎮 5. MÓDULO: DESAFÍO RÁPIDO (ESTILO CUTE Y GAMIFICADO)
+   ========================================================================== */
+#preview-header {
+    text-align: center;
+    margin-bottom: 25px;
+    width: 100%;
+    height: 1000px;
+    box-sizing: border-box;
+    background-image: url('https://cdn.phototourl.com/free/2026-09-03-c84a10ea-7085-4efd-9c59-16f70339e730.png'); 
+    background-repeat: no-repeat; 
+    background-size: 100% 100%; 
+    background-position: center; 
+}
+
+.quiz-icon {
+    font-size: 45px;
+    display: inline-block;
+    animation: pulseCute 2s infinite alternate;
+}
+
+.quiz-title {
+    font-family: 'Fredoka', sans-serif;
+    color: #E66E00;
+    font-size: 28px;
+    margin: 10px 0 5px 0;
+}
+
+.quiz-subtitle {
+    color: #666666;
+    font-size: 15px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.quiz-container {
+    display: flex;
+    flex-direction: row;            
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.quiz-nav-btn {
+    background: #FFFFFF;
+    border: 3px solid #FFE0CC;
+    color: #FF7A00;
+    font-size: 18px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;            
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 0 #FFE0CC;
+    transition: all 0.1s ease;
+}
+
+.quiz-nav-btn:hover {
+    background: #FFF5EE;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #FFE0CC;
+}
+
+.quiz-nav-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 0px 0 #FFE0CC;
+}
+
+.quiz-card {
+    flex: 1;
+    background: #FFFFFF;
+    border: 4px solid #FFD0B3;
+    border-radius: 28px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(255, 122, 0, 0.05);
+    display: flex;
+    flex-direction: column;        
+}
+
+.quiz-meta {
+    display: flex;
+    flex-direction: row;            
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#quiz-materia {
+    background: #EDE7F6;
+    color: #6A1B9A;
+    font-weight: 900;
+    font-size: 13px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-family: 'Fredoka', sans-serif;
+}
+
+#quiz-puntos {
+    background: #FFF9C4;
+    color: #F57F17;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 6px 16px;
+    border-radius: 50px;
+}
+
+.quiz-body-wrapper {
+    display: flex;
+    flex-direction: row-reverse;    
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: #FFFDF9;
+    border: 2px dashed #FFBE98;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.quiz-question {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 20px;
+    color: #2D3748;
+    line-height: 1.4;
+    margin: 0;
+    flex: 1;
+}
+
+.quiz-avatar-decor {
+    width: 80px;
+    height: 80px;
+    background: #FFF0E0;
+    border: 3px solid #FFBE98;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: row;            
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.quiz-options-grid {
+    display: flex;
+    flex-direction: row;            
+    justify-content: center;
+    flex-wrap: wrap;    
+    gap: 16px;          
+    margin-top: 20px;
+}
+
+.preview-opt-btn, .quiz-options-grid button {
+    background: #FFFFFF; 
+    border-radius: 18px;            
+    font-weight: 800; 
+    cursor: pointer; 
+    transition: all 0.1s ease;
+    display: inline-flex;
+    flex-direction: row;            
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-opt-btn {
+    border: 3px solid #FFE0CC;      
+    padding: 16px 28px;             
+    font-family: 'Nunito', sans-serif; 
+    font-size: 18px;                
+    color: #FF7A00;                 
+    box-shadow: 0 5px 0 #FFE0CC;    
+    min-width: 100px;               
+}
+
+.preview-opt-btn:hover:not(:disabled) {
+    background: #FFF9F5;            
+    border-color: #FFB300;          
+    color: #E66E00;                 
+    transform: translateY(-2px);    
+    box-shadow: 0 7px 0 #FFB300;    
+}
+
+.preview-opt-btn:active:not(:disabled) {
+    transform: translateY(4px);    
+    box-shadow: 0 1px 0 #FFB300;    
+}
+
+.preview-opt-btn:disabled {
+    cursor: not-allowed;
+}
+
+.quiz-options-grid button {
+    border: 3px solid #E2E8F0;
+    padding: 16px;
+    border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: #4A5568;
+    box-shadow: 0 4px 0 #E2E8F0;
+}
+
+.quiz-options-grid button:hover:not(:disabled) {
+    background-color: #FFFDF0;
+    border-color: #FFB300;
+    color: #FF6F00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #FFB300;
+}
+
+.quiz-options-grid button:active:not(:disabled) {
+    transform: translateY(4px);
+    box-shadow: 0 0px 0 #FFB300;
+}
+
+.quiz-feedback-box {
+    margin-top: 20px;
+    border-radius: 15px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+@keyframes pulseCute {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.08); }
+}
+
+@media (max-width: 650px) {
+    .quiz-container {
+        flex-direction: column;
+    }
+    .quiz-nav-btn {
+        width: 100%;
+        border-radius: 15px;
+        height: 40px;
+    }
+    .quiz-body-wrapper {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+}

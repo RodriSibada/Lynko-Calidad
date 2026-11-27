@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lynko App</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/Frontend/static/modal_lynko_inicio.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <img src="https://cdn.phototourl.com/free/2026-06-08-2a556232-b138-49a7-a830-66b7ce8a4f19.png" alt="Lynko Logo">
+                </div>
+                <p>Aprender nunca fue tan divertido</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active"><a href="/inicio-estudiante/{{ id_usuario }}"><i>🏠</i> Inicio</a></li>
+                <li class="nav-item"><a href="/actividades-estudiante/{{ id_usuario }}"><i>✍️</i> Actividades</a></li> 
+                <li class="nav-item"><a href="/progreso-estudiante/{{ id_usuario }}">🎉 Reto Semanal</a></li>   
+                <li class="nav-item"><a href="/recompensas-estudiante/{{ id_usuario }}"><i>🏆</i> Recompensas</a></li>   
+                <li class="nav-item"><a href="/perfil-estudiante/{{ id_usuario }}"><i>👤</i> Perfil</a></li>
+                <li class="nav-item"><a href="/ajustes-estudiante/{{ id_usuario }}"><i>⚙️</i> Ajustes</a></li>
+            </ul>
+        </div>
+
+        <div class="streak-card">
+            <div class="streak-fire">🔥</div>
+            <div class="streak-info">
+                <span>Racha de estudio</span>
+                <strong>{{ racha }} días</strong>
+                <span style="color: var(--orange-primary);">¡Sigue así!</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <header class="header-top">
+            <div class="welcome-text">
+                <h1>¡Hola, {{ nombre }}! 👋</h1>
+                <p>¿Qué vamos a aprender hoy?</p>
+            </div>
+            
+            <div class="user-status">
+                <div class="profile-badge">
+                    <div class="avatar-placeholder" style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fffbf0; border: 2px solid #ea580c;">
+                        {% if avatar_perfil %}
+                            <img src="{{ avatar_perfil }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                        {% else %}
+                            <span style="font-size: 20px;">👧</span>
+                        {% endif %}
+                    </div>
+                    <div class="info">
+                        <p>{{ nombre }}</p>
+                        <span>Nivel {{ nivel }} ➔</span>
+                    </div>
+                </div>
+            </div>
+            <div class="points-badge">
+                ⭐ {{ puntos }} <span>puntos</span>
+            </div>
+            <button type="button" id="btnCampanita" class="notification-btn" style="position: relative; background: none; border: none; font-size: 20px; cursor: pointer;">
+                    🔔
+                    <div class="notification-badge" style="display: none; position: absolute; top: -5px; right: -5px; background: #e53e3e; color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%; font-weight: bold;">0</div>
+            </button>
+            <!-- 2. El Modal Global (Oculto por defecto, se centra en la pantalla y se sale haciendo clic en el fondo) -->
+             <div id="modalNotificacionesGlobal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000;">
+                <div style="background: #ffffff; width: 100%; max-width: 500px; max-height: 80vh; overflow-y: auto; padding: 25px; border-radius: 20px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        
+                    <!-- Botón para cerrar con la "X" -->
+                     <button type="button" id="cerrarModalNotificaciones" style="position: absolute; top: 15px; right: 15px; background: #edf2f7; border: none; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; cursor: pointer;">✖</button>
+                     <h3 style="color: #2d3748; margin-top: 0; margin-bottom: 15px; font-size: 18px;">📥 Historial de Avisos y Alertas</h3>
+        
+                     <!-- Contenedor dinámico donde JS inyectará las alertas -->
+                      <div id="listaNotificacionesContenedor" style="display: flex; flex-direction: column; gap: 10px;">
+                        <p style="text-align: center; color: #718096; padding: 20px;">Cargando notificaciones...</p>
+                    </div>
+
+                </div>
+            </div>
+            <div style="padding: 20px;" id="logout-wrapper">
+    <a href="/logout" style="color: rgb(255, 33, 33); text-decoration: none; font-weight: 700; font-size: 14px;">🚪 Cerrar Sesión</a>
+</div>
+        </header>
+
+        <section class="hero-section">
+            <div class="mascot-card">
+                <div class="mascot-image-placeholder">
+                    <img src="https://cdn.phototourl.com/free/2026-06-08-19425590-9119-4b1f-8454-f76046da3bec.png" alt="Lynko">
+                </div>
+                <div class="speech-bubble">
+                    <strong>¡Hola! Soy Lynko</strong><br>Tu compañero de estudio. ¡Vamos a aprender cosas increíbles hoy! ✨
+                </div>
+            </div>
+
+            <!-- TARJETAS DE MATERIAS -->
+            <div class="subjects-container">
+    
+    <!-- 1. MATEMÁTICAS -->
+    <div class="subject-card card-clickeable" onclick="window.location.href='/estudiante/materia/{{id_usuario}}/1'">
+        <div class="subject-banner math-bg" style="position: relative; overflow: hidden; height: 130px; width: 100%; display: block; padding: 0; margin: 0;">
+            {% if imagenes['Matemáticas'] %}
+                <img src="{{ imagenes['Matemáticas'] }}"  referrerpolicy="no-referrer" style="display: block; width: 100%; height: 100%; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+            {% else %}
+                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 42px; z-index: 2;"></span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="subject-info">
+            <div>
+                <h3>Matemáticas</h3>
+                <p>Números, operaciones y problemas</p>
+            </div>
+            <div>
+                <div class="progress-bar-container">
+                    <div class="progress-fill math-fill" style="width: {{ progreso['Matemáticas'] }}%;"></div>
+                </div>
+                <div class="progress-text">{{ progreso['Matemáticas'] }}%</div>
+            </div>
+        </div>
+        <div class="click-hint">¡Haz clic para entrar a la materia! 🚀</div>
+    </div>
+
+    <!-- 2. ESPAÑOL -->
+    <div class="subject-card card-clickeable" onclick="window.location.href='/estudiante/materia/{{id_usuario}}/2'">
+        <div class="subject-banner spanish-bg" style="position: relative; overflow: hidden; height: 130px; width: 100%; display: block; padding: 0; margin: 0;">
+            {% if imagenes and imagenes['Español'] %}
+            <img src="{{ imagenes['Español'] }}"  referrerpolicy="no-referrer" style="display: block; width: 100%; height: 100%; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+            {% else %}
+            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 42px; z-index: 2;"></span>
+            </div>
+            {% endif %}
+        </div>
+        <div class="subject-info">
+            <div>
+                <h3>Español</h3>
+                <p>Lectura, escritura y comunicación</p>
+            </div>
+            <div>
+                <div class="progress-bar-container">
+                    <div class="progress-fill spanish-fill" style="width: {{ progreso['Español'] if progreso and 'Español' in progreso else 0 }}%;"></div>
+                </div>
+                <div class="progress-text">{{ progreso['Español'] if progreso and 'Español' in progreso else 0 }}%</div>
+            </div>
+        </div>
+        <div class="click-hint">¡Haz clic para entrar a la materia! 🚀</div>
+    </div>
+
+    <!-- 3. BIOLOGÍA -->
+    <div class="subject-card card-clickeable" onclick="window.location.href='/estudiante/materia/{{id_usuario}}/3'">
+        <div class="subject-banner bio-bg" style="position: relative; overflow: hidden; height: 130px; width: 100%; display: block; padding: 0; margin: 0;">
+            {% if imagenes['Biología'] %}
+                <img src="{{ imagenes['Biología'] }}"  referrerpolicy="no-referrer" style="display: block; width: 100%; height: 100%; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+            {% else %}
+                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 42px; z-index: 2;"></span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="subject-info">
+            <div>
+                <h3>Biología</h3>
+                <p>Seres vivos y el medio ambiente</p>
+            </div>
+            <div>
+                <div class="progress-bar-container">
+                    <div class="progress-fill bio-fill" style="width: {{ progreso['Biología'] }}%;"></div>
+                </div>
+                <div class="progress-text">{{ progreso['Biología'] }}%</div>
+            </div>
+        </div>
+        <div class="click-hint">¡Haz clic para entrar a la materia! 🚀</div>
+    </div>
+
+    <!-- 4. BIENESTAR -->
+    <div class="subject-card card-clickeable" onclick="window.location.href='/estudiante/materia/{{id_usuario}}/4'">
+        <div class="subject-banner bie-bg" style="position: relative; overflow: hidden; height: 130px; width: 100%; display: block; padding: 0; margin: 0;">
+            {% if imagenes['Bienestar'] %}
+                <img src="{{ imagenes['Bienestar'] }}"  referrerpolicy="no-referrer" style="display: block; width: 100%; height: 100%; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+            {% else %}
+                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 42px; z-index: 2;"></span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="subject-info">
+            <div>
+                <h3>Bienestar</h3>
+                <p>Salud y bienestar emocional</p>
+            </div>
+            <div>
+                <div class="progress-bar-container">
+                    <div class="progress-fill bio-fill" style="width: {{ progreso['Bienestar'] }}%;"></div>
+                </div>
+                <div class="progress-text">{{ progreso['Bienestar'] }}%</div>
+            </div>
+        </div>
+        <div class="click-hint">¡Haz clic para entrar a la materia! 🚀</div>
+    </div>
+
+</div>
+        </section>
+
+        <!-- SECCIÓN INFERIOR -->
+        <section class="bottom-grid">
+            <div class="info-card">
+                <h3 class="card-title"><span style="color:var(--orange-primary)">📈</span> Mi progreso</h3>
+                <div class="progress-row">
+                    <div class="circular-progress">
+                        <div class="progress-value">60% <span>Progreso general</span></div>
+                    </div>
+                    <ul class="stats-list">
+                        <li><span>✅ Materias completadas</span> <strong>3/3</strong></li>
+                        <li><span>☑️ Actividades realizadas</span> <strong>18</strong></li>
+                        <li><span>🕒 Tiempo de estudio</span> <strong>4h 30m</strong></li>
+                    </ul>
+                </div>
+                <button class="btn-secondary">Ver mi progreso completo</button>
+            </div>
+            
+            <div class="info-card">
+                <h3 class="card-title"><span style="color:gold">🏆</span> Recompensas recientes</h3>
+                <div class="rewards-container">
+                    <div class="reward-item">
+                        <div class="reward-icon">🚀</div>
+                        <div class="reward-details">
+                            <h4>¡Tu primera aventura!</h4>
+                            <p>Completa actividades para ganar tus primeras insignias.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-secondary" a href="/recompensas-estudiante/{{ id_usuario }}"> Ver todas mis recompensas</button>
+            </div>
+
+            <div class="info-card">
+                <h3 class="card-title"><span style="color:amber">⚡</span> Actividad recomendada</h3>
+                <div>
+                    <div class="activity-box">
+                        <div class="activity-thumb">2+3=5</div>
+                        <div class="activity-text">
+                            <h4>Suma divertida</h4>
+                            <p>Practica sumas de manera divertida.</p>
+                        </div>
+                    </div>
+                    <button class="btn-primary">¡Comenzar!</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- SCRIPT DE CONTROL DE MODALES -->
+<script>
+   
+    // --- EVENT LISTENERS E INICIALIZACIÓN NOTIFICACIONES ---
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnCampanita = document.getElementById("btnCampanita");
+        const modalNotificaciones = document.getElementById("modalNotificacionesGlobal");
+        const cerrarModalBtn = document.getElementById("cerrarModalNotificaciones");
+        const contenedorNotificaciones = document.getElementById("listaNotificacionesContenedor");
+        const badgeNotificaciones = document.querySelector(".notification-badge");
+
+        // Datos de notificaciones inyectados desde FastAPI de forma segura
+        const notificacionesData = {{ notificaciones | tojson | safe }};
+        const noLeidasCount = {{ notificaciones_no_leidas | default(0) }};
+
+        // Mostrar u ocultar el badge rojo con el número de no leídas
+        if (badgeNotificaciones) {
+            if (noLeidasCount > 0) {
+                badgeNotificaciones.style.display = "inline-block";
+                badgeNotificaciones.textContent = noLeidasCount;
+            } else {
+                badgeNotificaciones.style.display = "none";
+            }
+        }
+
+        // Abrir el modal al hacer clic en la campanita
+        if (btnCampanita && modalNotificaciones) {
+            btnCampanita.addEventListener("click", function () {
+                modalNotificaciones.style.display = "flex";
+                document.body.style.overflow = "hidden"; // Bloquea el scroll del fondo
+                renderizarNotificaciones();
+            });
+        }
+
+        // Cerrar el modal con el botón de la "X"
+        if (cerrarModalBtn && modalNotificaciones) {
+            cerrarModalBtn.addEventListener("click", function () {
+                modalNotificaciones.style.display = "none";
+                document.body.style.overflow = "auto"; // Restaura el scroll
+            });
+        }
+
+        // Cerrar el modal si se hace clic fuera del contenido (en el fondo oscuro)
+        if (modalNotificaciones) {
+            modalNotificaciones.addEventListener("click", function (event) {
+                if (event.target === modalNotificaciones) {
+                    modalNotificaciones.style.display = "none";
+                    document.body.style.overflow = "auto";
+                }
+            });
+        }
+
+        // Función para pintar las notificaciones dinámicamente en el contenedor
+        function renderizarNotificaciones() {
+            if (!notificacionesData || notificacionesData.length === 0) {
+                contenedorNotificaciones.innerHTML = `
+                    <div style="text-align: center; color: #718096; padding: 20px;">
+                        <p style="font-size: 30px; margin: 0 0 10px 0;">📭</p>
+                        <p style="margin: 0; font-weight: 500;">No tienes notificaciones recientes.</p>
+                    </div>`;
+                return;
+            }
+
+            let htmlContenido = "";
+            notificacionesData.forEach(notif => {
+                let bgColor = notif.leida ? "#f8fafc" : "#fff7ed"; // Naranja suavecito si no está leída
+                let borderColor = notif.leida ? "#e2e8f0" : "#fdba74";
+                
+                htmlContenido += `
+                    <div style="background: ${bgColor}; border: 1px solid ${borderColor}; padding: 12px 15px; border-radius: 12px; position: relative;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <strong style="color: #2d3748; font-size: 14px;">${notif.titulo}</strong>
+                            <span style="font-size: 11px; color: #a0aec0;">${notif.fecha_creacion || ''}</span>
+                        </div>
+                        <p style="margin: 0; color: #4a5568; font-size: 13px;">${notif.mensaje}</p>
+                    </div>
+                `;
+            });
+
+            contenedorNotificaciones.innerHTML = htmlContenido;
+        }
+    });
+</script>
+</body>
+</html>

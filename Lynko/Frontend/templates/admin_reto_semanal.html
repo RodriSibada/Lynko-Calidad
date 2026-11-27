@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynko - Administración de Retos Semanales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/adim.css">
+    <link rel="stylesheet" href="/static/Reto_semanal.css">
+</head>
+<body id="admin-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <img src="https://cdn.phototourl.com/free/2026-06-08-2a556232-b138-49a7-a830-66b7ce8a4f19.png" alt="Lynko Logo">
+                </div>
+                <p class="logo-slogan">Panel de Control Central</p>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/admin"><i>📊</i> Inicio</a></li>
+                    <li class="nav-item"><a href="/admin/estudiantes"><i>👥</i> Alumnos y Ranking</a></li>  
+                    <li class="nav-item"><a href="/admin/nuevas-preguntas"><i>➕</i> Crear Preguntas</a></li>
+                    <li class="nav-item"><a href="/admin/preguntas"><i>📝</i> Banco de Preguntas</a></li>   
+                    <li class="nav-item "><a href="/admin/materias-actividades"><i>🎮</i> Gestión de Materias</a></li>   
+                    <li class="nav-item active"><a href="/admin/retos/crear"><i>🎉</i> Retos Semanales</a></li>  
+                </ul>
+            </nav>
+        </div>
+        <div class="sidebar-footer-btn" style="padding-top: 20px;">
+            <a href="/login" style="color: white; text-decoration: none; font-weight: 700; font-size: 14px;">🚪 Cerrar Sesión</a>
+        </div>
+    </aside>
+
+    <main id="main-content-wrapper">
+        <br>
+
+        <div class="admin-layout" style="display: flex; flex-direction: column; gap: 30px;">
+            
+            {% if msg_alerta %}
+                <div style="padding: 15px; border-radius: 8px; font-weight: 700; background-color: {% if exito %} #d1fae5; color: #065f46; {% else %} #fee2e2; color: #991b1b; {% endif %}">
+                    {{ msg_alerta }}
+                </div>
+            {% endif %}
+
+            <br>
+            <section class="metrics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+                <div class="admin-card" style="text-align: center; padding: 20px;">
+                    <h3>📖 Cuentos Activos</h3>
+                    <p style="font-size: 32px; font-weight: 800; color: #ff8c00; margin: 10px 0;">{{ listado_retos|length }}</p>
+                </div>
+                <div class="admin-card" style="text-align: center; padding: 20px;">
+                    <h3>🔥 Participaciones en Retos</h3>
+                    <p style="font-size: 32px; font-weight: 800; color: #2196f3; margin: 10px 0;">
+                        {{ metricas_retos|sum(attribute='participantes') }} alumnos
+                    </p>
+                </div>
+                <div class="admin-card" style="text-align: center; padding: 20px;">
+                    <h3>✅ Capítulos Completados</h3>
+                    <p style="font-size: 32px; font-weight: 800; color: #4caf50; margin: 10px 0;">
+                        {{ metricas_retos|sum(attribute='completados') }} éxitos
+                    </p>
+                </div>
+            </section>
+
+            <!-- Sección 2: Formulario único para registrar reto con 1 solo audio -->
+            <section class="admin-card full-width-section">
+                <h3><i>➕</i> Registrar Cuento y Reto Semanal</h3>
+                
+                <form action="/admin/retos/crear" method="POST" enctype="multipart/form-data" style="margin-top: 15px;">
+                    
+                    <div class="form-grid">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="titulo">Título del Reto / Cuento</label>
+                            <input type="text" id="titulo" name="titulo" placeholder="Ej. Lynko y el Reloj de Arena Cósmico" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="puntos_recompensa_total">Puntos Totales (EXP)</label>
+                            <input type="number" id="puntos_recompensa_total" name="puntos_recompensa_total" value="50" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="margin-top: 15px;">
+                        <div class="form-group" style="grid-column: span 3;">
+                            <label for="descripcion">Descripción</label>
+                            <textarea id="descripcion" name="descripcion" rows="2" placeholder="Describe la trama del cuento..." required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="margin-top: 15px;">
+                        <div class="form-group">
+                            <label for="fecha_inicio">Fecha de Inicio</label>
+                            <input type="datetime-local" id="fecha_inicio" name="fecha_inicio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha_fin">Fecha de Fin</label>
+                            <input type="datetime-local" id="fecha_fin" name="fecha_fin" required>
+                        </div>
+                    </div>
+
+                    <!-- 🎧 AUDIO ÚNICO GENERAL DEL RETO -->
+                    <div class="form-grid" style="margin-top: 15px;">
+                        <div class="form-group" style="grid-column: span 3;">
+                            <label for="link_audio">Archivo de Audio del Cuento (MP3, WAV)</label>
+                            <input type="file" id="link_audio" name="link_audio" accept="audio/*" required class="form-control">
+                        </div>
+                    </div>
+
+                    <div style="text-align: right; margin-top: 25px;">
+                        <button type="submit" class="btn-submit-form">🎉 Crear Reto Semanal</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
