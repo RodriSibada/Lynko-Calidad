@@ -1,0 +1,16 @@
+name: Auditoría SonarQube (SonarCloud)
+on: [push, pull_request]
+
+jobs:
+  sonarqube:
+    name: Análisis Estático SAST
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # Requerido por Sonar para historial Git
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
