@@ -88,7 +88,7 @@
     {% if reto %}
         
         {% if not reto.completado %}
-            <div class="weekly-challenge-card card-clickeable" onclick="abrirModalReto()">
+            <div class="weekly-challenge-card card-clickeable" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="abrirModalReto()">
                 <div class="challenge-badge">✨ RETO DE LA SEMANA</div>
                 
                 <div class="challenge-content">

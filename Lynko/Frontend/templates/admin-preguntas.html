@@ -98,17 +98,17 @@
                 <input type="hidden" id="input_id_materia" name="id_materia">
 
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Título del Reto / Actividad:</label>
-                    <input type="text" name="titulo" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    <label for="titulo" style="font-weight: 700; display: block; margin-bottom: 5px;">Título del Reto / Actividad:</label>
+                    <input id="titulo" type="text" name="titulo" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Descripción Breve:</label>
-                    <textarea name="descripcion" style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; resize: none;" class="form-control"></textarea>
+                    <label for="descripcion" style="font-weight: 700; display: block; margin-bottom: 5px;">Descripción Breve:</label>
+                    <textarea id="descripcion" name="descripcion" style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; resize: none;" class="form-control"></textarea>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Tipo de Actividad:</label>
+                    <label for="selectTipoActividad" style="font-weight: 700; display: block; margin-bottom: 5px;">Tipo de Actividad:</label>
                     <select name="tipo" id="selectTipoActividad" class="form-control" onchange="cambiarCamposDinamicos()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" required>
                         <option value="memorama">Memorama (Minijuego)</option>
                         <option value="completar_espacio">Completar Espacio</option>
@@ -117,40 +117,40 @@
                 </div>
 
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Puntos de Recompensa (EXP):</label>
-                    <input type="number" name="puntos_recompensa" value="20" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    <label for="puntos-recompensa" style="font-weight: 700; display: block; margin-bottom: 5px;">Puntos de Recompensa (EXP):</label>
+                    <input id="puntos-recompensa" type="number" name="puntos_recompensa" value="20" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
                 </div>
 
                 <!-- CAMPOS DINÁMICOS SEGÚN EL TIPO SELECCIONADO -->
                 
                 <!-- 1. Memorama -->
                 <div class="campos-tipo campo-memorama" style="margin-bottom: 15px;">
-                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Imagen URL (Tarjeta):</label>
-                    <input type="text" name="imagen_url" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    <label for="imagen-url" style="font-weight: 700; display: block; margin-bottom: 5px;">Imagen URL (Tarjeta):</label>
+                    <input id="imagen-url" type="text" name="imagen_url" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
                     
-                    <label style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Dato Curioso:</label>
-                    <textarea name="dato_curioso" style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; resize: none;" class="form-control"></textarea>
+                    <label for="dato-curioso" style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Dato Curioso:</label>
+                    <textarea id="dato-curioso" name="dato_curioso" style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; resize: none;" class="form-control"></textarea>
                 </div>
 
                 <!-- 2. Completar Espacio -->
                 <div class="campos-tipo campo-completar_espacio" style="display:none; margin-bottom: 15px;">
-                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Frase (Usa ___ para el espacio):</label>
-                    <input type="text" name="frase" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    <label for="frase" style="font-weight: 700; display: block; margin-bottom: 5px;">Frase (Usa ___ para el espacio):</label>
+                    <input id="frase" type="text" name="frase" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
                     
-                    <label style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Imagen de referencia URL:</label>
-                    <input type="text" name="imagen_url" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    <label for="imagen-url-1" style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Imagen de referencia URL:</label>
+                    <input id="imagen-url-1" type="text" name="imagen_url" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
                     
-                    <label style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Palabra Faltante:</label>
-                    <input type="text" name="palabra_faltante" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    <label for="palabra-faltante" style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Palabra Faltante:</label>
+                    <input id="palabra-faltante" type="text" name="palabra_faltante" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
                 </div>
 
                 <!-- 3. Rutina de Baile -->
                 <div class="campos-tipo campo-baile" style="display:none; margin-bottom: 15px;">
-                    <label style="font-weight: 700; display: block; margin-bottom: 5px;">Video URL (Enlace):</label>
-                    <input type="text" name="video_url" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
+                    <label for="video-url" style="font-weight: 700; display: block; margin-bottom: 5px;">Video URL (Enlace):</label>
+                    <input id="video-url" type="text" name="video_url" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0;" class="form-control">
                     
-                    <label style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Instrucciones de Movimiento:</label>
-                    <textarea name="instrucciones_movimiento" style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; resize: none;" class="form-control"></textarea>
+                    <label for="instrucciones-movimiento" style="font-weight: 700; display: block; margin-top: 10px; margin-bottom: 5px;">Instrucciones de Movimiento:</label>
+                    <textarea id="instrucciones-movimiento" name="instrucciones_movimiento" style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; resize: none;" class="form-control"></textarea>
                 </div>
 
                 <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px;">

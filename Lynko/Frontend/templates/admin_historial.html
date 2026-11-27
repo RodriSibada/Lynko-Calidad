@@ -51,19 +51,19 @@
                 <h3 style="font-family: 'Fredoka', sans-serif;"><i>🚀</i> Modificación Manual de Puntos</h3>
                 <form action="/admin/inyectar-puntos" method="POST" id="points-form">
                     <div class="form-group" id="group-userid">
-                        <label>ID único del Usuario (Estudiante)</label>
-                        <input type="number" name="id_usuario" class="form-input" placeholder="Ej: 14" required>
+                        <label for="id-usuario">ID único del Usuario (Estudiante)</label>
+                        <input id="id-usuario" type="number" name="id_usuario" class="form-input" placeholder="Ej: 14" required>
                     </div>
 
                     <div class="form-group" id="group-amount">
-                        <label>Variación de Puntos</label>
-                        <input type="number" name="puntos" class="form-input" placeholder="Ej: 100 o -50" required>
+                        <label for="puntos">Variación de Puntos</label>
+                        <input id="puntos" type="number" name="puntos" class="form-input" placeholder="Ej: 100 o -50" required>
                         <div id="input-help-text" style="color: gray; font-size: 11px; margin-top: 4px;">Usa valores positivos para regalar o negativos para penalizar.</div>
                     </div>
 
                     <div class="form-group" id="group-reason">
-                        <label>Motivo del Cambio</label>
-                        <input type="text" name="motivo" class="form-input" placeholder="Ej: Recompensa por participación" required>
+                        <label for="motivo">Motivo del Cambio</label>
+                        <input id="motivo" type="text" name="motivo" class="form-input" placeholder="Ej: Recompensa por participación" required>
                     </div>
 
                     <button type="submit" class="btn-primary" id="btn-submit-points" style="width: 100%; margin-top: 10px; background-color: #F57F17; border-color: #F57F17;">Aplicar Ajuste de Puntos 🪙</button>

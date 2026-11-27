@@ -91,7 +91,7 @@
         <section class="rewards-showcase">
     <!-- Mostrar los ganados -->
     {% for logro in logros_alcanzados %}
-    <div class="badge-box card-clickeable" onclick="abrirModalLogro('modal-logro-{{ loop.index }}')">
+    <div class="badge-box card-clickeable" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="abrirModalLogro('modal-logro-{{ loop.index }}')">
         <div class="badge-icon-circle">
             <img src="{{ logro.imagen_medalla }}" alt="{{ logro.nombre }}">
         </div>
@@ -127,7 +127,7 @@
 
     <!-- Mostrar los pendientes -->
     {% for logro in logros_pendientes %}
-    <div class="badge-box locked card-clickeable" onclick="abrirModalLogro('modal-logro-pend-{{ loop.index }}')">
+    <div class="badge-box locked card-clickeable" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="abrirModalLogro('modal-logro-pend-{{ loop.index }}')">
         <div class="badge-icon-circle">
             <img src="{{ logro.imagen_medalla }}" alt="{{ logro.nombre }}">
         </div>
